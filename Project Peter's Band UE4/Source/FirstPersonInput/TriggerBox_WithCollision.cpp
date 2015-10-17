@@ -62,3 +62,13 @@ bool ATriggerBox_WithCollision::isLiftable()
 	return canBeLifted;
 }
 
+void ATriggerBox_WithCollision::OnPickedUp()
+{
+	Collider->SetSimulatePhysics(false);
+}
+
+void ATriggerBox_WithCollision::OnDropped()
+{
+	Collider->SetSimulatePhysics(true);
+}
+

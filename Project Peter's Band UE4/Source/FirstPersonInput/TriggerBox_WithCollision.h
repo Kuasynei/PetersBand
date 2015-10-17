@@ -24,14 +24,18 @@ public:
 
 	bool GetIsWithin(bool IsWithin);
 
-	UPROPERTY(EditAnywhere)
-	bool canBeLifted;
+	UFUNCTION()
+	void OnPickedUp();
+
+	UFUNCTION()
+	void OnDropped();
 
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UBoxComponent* Collider;
 
-protected:
+	UPROPERTY(EditAnywhere)
+	bool canBeLifted;
 
 };

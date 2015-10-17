@@ -52,10 +52,9 @@ void APlayerCharacter::ActivateButton()
 
 		AttachedObject->DetachFromParent();
 
+		//Cast<ATriggerBox_WithCollision>(AttachedObject)->OnDropped();
+
 		AttachedObject->SetWorldLocation(Hand->GetComponentLocation());
-
-		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("Blah"));
-
 	}
 	else
 	{
@@ -66,7 +65,11 @@ void APlayerCharacter::ActivateButton()
 		if (OverlappingActors.Num() > 0)
 		{
 			AActor *OtherActor = OverlappingActors[0];
-			OtherActor->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+			if (Cast<ATriggerBox_WithCollision>(OtherActor)->isLiftable())
+			{
+				Cast<ATriggerBox_WithCollision>(OtherActor)->OnPickedUp();
+				OtherActor->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+			}
 		}
 	}
 		
@@ -82,13 +85,13 @@ void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("SomethingHitPlayer"));
+		//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("SomethingHitPlayer"));
 		
 		if (OtherActor->ActorHasTag(FName(TEXT("TriggerBox"))) == true)
 		{
 			SetWithin(true);
 
-			GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("PlayerHit"));
+			//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("PlayerHit"));
 
 			/*if (Cast<ATriggerBox_WithCollision>(OtherActor) == nullptr)
 			{
@@ -105,7 +108,7 @@ void APlayerCharacter::OnActorOverlapEnd(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("SomethingHitPlayer"));
+		//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("SomethingHitPlayer"));
 
 		if (OtherActor->ActorHasTag(FName(TEXT("TriggerBox"))) == true)
 		{
