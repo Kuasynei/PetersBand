@@ -31,8 +31,17 @@ protected:
 
 	void ActivateButton();
 
-	//UFUNCTION()
-	//virtual void OnActorOverlap(AActor* OtherActor);
+	UPROPERTY(EditAnywhere)
+	USceneComponent* Hand;
+
+
+	UFUNCTION()
+	virtual void OnActorOverlap(AActor* OtherActor);
+
+	UFUNCTION()
+	virtual void OnActorOverlapEnd(AActor* OtherActor);
+
+
 
 	
 	
