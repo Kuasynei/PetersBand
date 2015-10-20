@@ -3,7 +3,6 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "PlayerCharacter.h"
 #include "TriggerBox_WithCollision.generated.h"
 
 UCLASS()
@@ -19,19 +18,24 @@ public:
 	virtual void BeginPlay() override;
 	
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick( float DeltaSeconds ) override;	
+
+	bool isLiftable();
 
 	bool GetIsWithin(bool IsWithin);
 
-	UPROPERTY(EditAnywhere)
-	APlayerCharacter* player;
+	UFUNCTION()
+	void OnPickedUp();
+
+	UFUNCTION()
+	void OnDropped();
 
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UBoxComponent* Collider;
 
+	UPROPERTY(EditAnywhere)
+	bool canBeLifted;
 
-	UFUNCTION()
-	virtual void OnActorOverlap(AActor* OtherActor);
 };

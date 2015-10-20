@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
+#include "TriggerBox_WithCollision.h"
 #include "PlayerCharacter.h"
 
 
@@ -10,7 +11,12 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//OnActorBeginOverlap.AddDynamic(this, &APlayerCharacter::OnActorOverlap);
+	Hand = CreateDefaultSubobject<USceneComponent>(TEXT("Hand"));
+
+	Hand->AttachTo(RootComponent);
+
+	OnActorBeginOverlap.AddDynamic(this, &APlayerCharacter::OnActorOverlap);
+	OnActorEndOverlap.AddDynamic(this, &APlayerCharacter::OnActorOverlapEnd);
 }
 
 // Called when the game starts or when spawned
@@ -38,13 +44,35 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 
 void APlayerCharacter::ActivateButton()
 {
-	if (isWithinTrigger == true)
+	if (Hand->AttachChildren.Num() > 0)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("BUTTON PRESSED INSIDE OF TRIGGER"));
-		isWithinTrigger = false;
+		USceneComponent *AttachedObject;
+
+		AttachedObject = Hand->AttachChildren[0];
+
+		AttachedObject->DetachFromParent();
+
+		//Cast<ATriggerBox_WithCollision>(AttachedObject)->OnDropped();
+
+		AttachedObject->SetWorldLocation(Hand->GetComponentLocation());
 	}
 	else
-		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("BUTTON PRESSED OUTSIDE OF TRIGGER"));
+	{
+		TArray<AActor*> OverlappingActors;
+
+		GetOverlappingActors(OverlappingActors, ATriggerBox_WithCollision::StaticClass());
+
+		if (OverlappingActors.Num() > 0)
+		{
+			AActor *OtherActor = OverlappingActors[0];
+			if (Cast<ATriggerBox_WithCollision>(OtherActor)->isLiftable())
+			{
+				Cast<ATriggerBox_WithCollision>(OtherActor)->OnPickedUp();
+				OtherActor->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+			}
+		}
+	}
+		
 
 }
 
@@ -53,7 +81,7 @@ void APlayerCharacter::SetWithin(bool wBool)
 	isWithinTrigger = wBool;
 }
 
-/*void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
+void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
@@ -61,9 +89,30 @@ void APlayerCharacter::SetWithin(bool wBool)
 		
 		if (OtherActor->ActorHasTag(FName(TEXT("TriggerBox"))) == true)
 		{
+			SetWithin(true);
+
 			//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("PlayerHit"));
 
-			SetWithin(true);
+			/*if (Cast<ATriggerBox_WithCollision>(OtherActor) == nullptr)
+			{
+				GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("OtherActor Cast Was Null"));
+			}
+			else if (Cast<ATriggerBox_WithCollision>(OtherActor)->canBeLifted == true && isEPressed == true)
+			{
+			}*/
 		}
 	}
-}*/
+}
+
+void APlayerCharacter::OnActorOverlapEnd(AActor* OtherActor)
+{
+	if (OtherActor != GetOwner())
+	{
+		//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("SomethingHitPlayer"));
+
+		if (OtherActor->ActorHasTag(FName(TEXT("TriggerBox"))) == true)
+		{
+			SetWithin(false);
+		}
+	}
+}
