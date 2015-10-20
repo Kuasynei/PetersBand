@@ -65,6 +65,11 @@ void APlayerCharacter::ActivateButton()
 		if (OverlappingActors.Num() > 0)
 		{
 			AActor *OtherActor = OverlappingActors[0];
+
+			if (OtherActor->ActorHasTag(TEXT("Door")))
+			{
+				Cast<ATriggerBox_WithCollision>(OtherActor)->OpenDoor();
+			}
 			if (Cast<ATriggerBox_WithCollision>(OtherActor)->isLiftable())
 			{
 				Cast<ATriggerBox_WithCollision>(OtherActor)->OnPickedUp();
