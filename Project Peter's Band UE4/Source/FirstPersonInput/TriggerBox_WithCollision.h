@@ -30,12 +30,21 @@ public:
 	UFUNCTION()
 	void OnDropped();
 
+	UFUNCTION()
+	void OpenDoor();
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UBoxComponent* Collider;
 
+	UFUNCTION()
+	virtual void OnActorOverlap(AActor* OtherActor);
+
 	UPROPERTY(EditAnywhere)
 	bool canBeLifted;
+
+	UPROPERTY(EditAnywhere)
+	bool isDoor;
 
 };

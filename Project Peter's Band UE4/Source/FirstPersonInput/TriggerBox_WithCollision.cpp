@@ -14,7 +14,7 @@ ATriggerBox_WithCollision::ATriggerBox_WithCollision()
 
 	RootComponent = Collider;
 
-	//OnActorBeginOverlap.AddDynamic(this, &ATriggerBox_WithCollision::OnActorOverlap);
+	OnActorBeginOverlap.AddDynamic(this, &ATriggerBox_WithCollision::OnActorOverlap);
 
 
 }
@@ -33,29 +33,20 @@ void ATriggerBox_WithCollision::Tick( float DeltaTime )
 
 }
 
-/*void ATriggerBox_WithCollision::OnActorOverlap(AActor* OtherActor)
+void ATriggerBox_WithCollision::OnActorOverlap(AActor* OtherActor)
 {
 	//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("Anything"));
 	
 	if (OtherActor != GetOwner())
 	{
-		//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("SomethingInsideBox"));
+		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("SomethingInsideBox"));
 
 		if (OtherActor->ActorHasTag(FName(TEXT("Player"))) == true)
 		{
-			//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("PlayerInsideBox"));
 			
-			if (Cast<APlayerCharacter>(OtherActor) == nullptr)
-			{
-				//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, TEXT("OtherActor Cast Was Null"));
-			}
-			else
-				Cast<APlayerCharacter>(OtherActor)->SetWithin(true);
-
-			//player->SetWithin();
 		}
 	}
-}*/
+}
 
 bool ATriggerBox_WithCollision::isLiftable()
 {
@@ -72,3 +63,14 @@ void ATriggerBox_WithCollision::OnDropped()
 	Collider->SetSimulatePhysics(true);
 }
 
+void ATriggerBox_WithCollision::OpenDoor()
+{
+	if (!isDoor)
+		return;
+	else
+	{
+		FRotator CurrentRotation = GetActorRotation();
+		CurrentRotation.Yaw = 90;
+		SetActorRotation(CurrentRotation);
+	}
+}
