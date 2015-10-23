@@ -18,7 +18,7 @@ void ASpawnerGamemode::BeginPlay()
 {
 	FTimerHandle SomeVariable;
 	GetWorldTimerManager().ClearTimer(SomeVariable);
-	GetWorldTimerManager().SetTimer(SomeVariable, this, &ASpawnerGamemode::SpawnEntity, 2.f, true, -1.0f);
+	//GetWorldTimerManager().SetTimer(SomeVariable, this, &ASpawnerGamemode::SpawnEntity, 2.f, true, -1.0f);
 }
 
 void ASpawnerGamemode::SpawnEntity()
