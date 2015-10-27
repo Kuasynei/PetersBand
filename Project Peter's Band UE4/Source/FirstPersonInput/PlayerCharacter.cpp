@@ -123,13 +123,11 @@ void APlayerCharacter::ActivateButton()
 
 		AttachedObject = Hand->AttachChildren[0];
 
+		Cast<ATriggerBox_WithCollision>(OverlappingActors[0])->OnDropped();
+
 		AttachedObject->DetachFromParent();
 
-		//Cast<ATriggerBox_WithCollision>(AttachedObject)->OnDropped();
-
 		AttachedObject->SetWorldLocation(Hand->GetComponentLocation());
-
-		Cast<ATriggerBox_WithCollision>(OverlappingActors[0])->OnDropped();
 
 		//holdingObject = false;
 
@@ -146,9 +144,10 @@ void APlayerCharacter::ActivateButton()
 			{
 				Cast<ATriggerBox_WithCollision>(OtherActor)->OpenDoor();
 			}
+
 			if (Cast<ATriggerBox_WithCollision>(OtherActor)->isLiftable())
 			{
-				//if (this->GetActorLocation().Y < OtherActor->GetActorLocation().Y)
+				if (this->GetActorLocation().Z - 50 < OtherActor->GetActorLocation().Z)
 				{
 					Cast<ATriggerBox_WithCollision>(OtherActor)->OnPickedUp();
 					OtherActor->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
