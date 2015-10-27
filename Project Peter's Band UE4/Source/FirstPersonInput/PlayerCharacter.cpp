@@ -31,6 +31,7 @@ APlayerCharacter::APlayerCharacter()
 	Hand = CreateDefaultSubobject<USceneComponent>(TEXT("Hand"));
 	Hand->AttachTo(RootComponent);
 	Hand->RelativeLocation = FVector(100, 0, 0);
+	holdingObject = false;
 	//BOX PICKUP CODE//
 
 	OnActorBeginOverlap.AddDynamic(this, &APlayerCharacter::OnActorOverlap);
@@ -111,24 +112,30 @@ void APlayerCharacter::LookUpAtRate(float Rate)
 
 void APlayerCharacter::ActivateButton()
 {
+	
+	TArray<AActor*> OverlappingActors;
+
+	GetOverlappingActors(OverlappingActors, ATriggerBox_WithCollision::StaticClass());
+
 	if (Hand->AttachChildren.Num() > 0)
 	{
 		USceneComponent *AttachedObject;
 
 		AttachedObject = Hand->AttachChildren[0];
 
+		Cast<ATriggerBox_WithCollision>(OverlappingActors[0])->OnDropped();
+
 		AttachedObject->DetachFromParent();
 
-		//Cast<ATriggerBox_WithCollision>(AttachedObject)->OnDropped();
-
 		AttachedObject->SetWorldLocation(Hand->GetComponentLocation());
+
+		//holdingObject = false;
+
+		//@Note: Hack for a one floor setup.
+		//AttachedObject->SetWorldLocation(FVector(Hand->GetComponentLocation().X, Hand->GetComponentLocation().Y, 50));
 	}
 	else
 	{
-		TArray<AActor*> OverlappingActors;
-
-		GetOverlappingActors(OverlappingActors, ATriggerBox_WithCollision::StaticClass());
-
 		if (OverlappingActors.Num() > 0)
 		{
 			AActor *OtherActor = OverlappingActors[0];
@@ -137,13 +144,19 @@ void APlayerCharacter::ActivateButton()
 			{
 				Cast<ATriggerBox_WithCollision>(OtherActor)->OpenDoor();
 			}
+
 			if (Cast<ATriggerBox_WithCollision>(OtherActor)->isLiftable())
 			{
-				Cast<ATriggerBox_WithCollision>(OtherActor)->OnPickedUp();
-				OtherActor->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+				if (this->GetActorLocation().Z - 50 < OtherActor->GetActorLocation().Z)
+				{
+					Cast<ATriggerBox_WithCollision>(OtherActor)->OnPickedUp();
+					OtherActor->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+				}
 			}
 		}
 	}
+
+
 }
 
 //USE BUTTON CODE END//
