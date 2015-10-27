@@ -148,10 +148,11 @@ void APlayerCharacter::ActivateButton()
 			}
 			if (Cast<ATriggerBox_WithCollision>(OtherActor)->isLiftable())
 			{
-				//if (this->GetTransform()
-				Cast<ATriggerBox_WithCollision>(OtherActor)->OnPickedUp();
-				OtherActor->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
-				//holdingObject = true;
+				//if (this->GetActorLocation().Y < OtherActor->GetActorLocation().Y)
+				{
+					Cast<ATriggerBox_WithCollision>(OtherActor)->OnPickedUp();
+					OtherActor->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+				}
 			}
 		}
 	}
