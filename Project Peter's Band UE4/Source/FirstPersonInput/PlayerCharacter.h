@@ -72,6 +72,8 @@ protected:
 
 	bool isWithinTrigger;
 
+	bool holdingObject;
+
 	void ActivateButton();
 
 	UPROPERTY(EditAnywhere)
