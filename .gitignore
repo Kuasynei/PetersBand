@@ -28,7 +28,6 @@
 *.app
 
 # UE4 Specific Ignores
-Project Peter's Band UE4/Binaries/
 Project Peter's Band UE4/Intermediate/
 Project Peter's Band UE4/Saved/
 Project Peter's Band UE4/Build/
