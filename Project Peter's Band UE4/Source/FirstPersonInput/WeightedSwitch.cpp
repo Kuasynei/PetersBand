@@ -40,6 +40,14 @@ void AWeightedSwitch::OnActorOverlap(AActor *OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
+		if (ToActivate->ActorHasTag("Door"))
+		{
+			//Open Door
+		}
+		if (ToActivate->ActorHasTag("Light"))
+		{
+			//Turn On/Off Light
+		}
 		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Cyan, TEXT("Switch On"));
 		//Activated = true;
 	}
