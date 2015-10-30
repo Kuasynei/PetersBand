@@ -66,13 +66,16 @@ public:
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
-
 	
 protected:
 
 	bool isWithinTrigger;
-
+	
+	APlayerController *MyPlayerController;
+	
 	bool holdingObject;
+
+	bool activateBtnPressed;
 
 	void ActivateButton();
 

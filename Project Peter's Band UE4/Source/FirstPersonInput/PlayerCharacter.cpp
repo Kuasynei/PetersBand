@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
+#include "DoorSwitch.h"
 #include "TriggerBox_WithCollision.h"
 #include "PlayerCharacter.h"
 
@@ -10,7 +11,6 @@ APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.f);
 
@@ -42,6 +42,8 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	MyPlayerController = Cast<APlayerController>(GetController());
 	
 }
 
@@ -50,6 +52,14 @@ void APlayerCharacter::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+	if (MyPlayerController->WasInputKeyJustPressed(EKeys::E))
+	{
+		activateBtnPressed = true;
+	}
+	else if (MyPlayerController->WasInputKeyJustReleased(EKeys::E))
+	{
+		activateBtnPressed = false;
+	}
 }
 
 // Called to bind functionality to input
@@ -112,7 +122,6 @@ void APlayerCharacter::LookUpAtRate(float Rate)
 
 void APlayerCharacter::ActivateButton()
 {
-	
 	TArray<AActor*> OverlappingActors;
 
 	GetOverlappingActors(OverlappingActors, ATriggerBox_WithCollision::StaticClass());
@@ -140,7 +149,7 @@ void APlayerCharacter::ActivateButton()
 		{
 			AActor *OtherActor = OverlappingActors[0];
 
-			if (OtherActor->ActorHasTag(TEXT("Door")))
+			if (OtherActor->ActorHasTag(FName(TEXT("Door"))))
 			{
 				Cast<ATriggerBox_WithCollision>(OtherActor)->OpenDoor();
 			}

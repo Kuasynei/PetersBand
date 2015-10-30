@@ -70,7 +70,7 @@ void ATriggerBox_WithCollision::OpenDoor()
 	else
 	{
 		FRotator CurrentRotation = GetActorRotation();
-		CurrentRotation.Yaw = 90;
+		CurrentRotation.Yaw += 90;
 		SetActorRotation(CurrentRotation);
 	}
 }
