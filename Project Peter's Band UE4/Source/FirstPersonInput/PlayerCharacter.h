@@ -41,6 +41,8 @@ public:
 
 	void SetWithin(bool wBool);
 
+	USceneComponent* GetHand();
+
 protected:
 
 	/** Handles moving forward/backward */
@@ -81,7 +83,6 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
-
 
 	UFUNCTION()
 	virtual void OnActorOverlap(AActor* OtherActor);

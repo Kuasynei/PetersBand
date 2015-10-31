@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
+#include "Interactable.h"
 #include "DoorSwitch.h"
 #include "TriggerBox_WithCollision.h"
 #include "PlayerCharacter.h"
@@ -122,7 +123,38 @@ void APlayerCharacter::LookUpAtRate(float Rate)
 
 void APlayerCharacter::ActivateButton()
 {
+	//Create an array to hold all of the overlapping actors on the player
 	TArray<AActor*> OverlappingActors;
+
+	GetOverlappingActors(OverlappingActors, AInteractable::StaticClass());
+
+	//Create an interactable pointer to hold the closest object at the end of it as well as a float to hold the closest distance
+	AInteractable *ClosestObject = nullptr;
+
+	//@note: FLT_MAX just sets the float to be the higest number possible for a float
+	float ClosestObjectDist = FLT_MAX;
+
+	//Loop that checks every object in the array to find what the closest object is
+	for (int i = 0; i < OverlappingActors.Num(); i++)
+	{
+		float ObjectDistance = FVector::Dist(this->GetActorLocation(), OverlappingActors[i]->GetActorLocation());
+
+		if (ObjectDistance < ClosestObjectDist)
+		{
+			ClosestObjectDist = ObjectDistance;
+			ClosestObject = Cast<AInteractable>(OverlappingActors[i]);
+		}
+	}
+
+	if (ClosestObject != nullptr)
+	{
+		ClosestObject->Interact(this);
+
+	}
+	
+	///OLD CODE FOR ACTIVATION
+	
+	/*TArray<AActor*> OverlappingActors;
 
 	GetOverlappingActors(OverlappingActors, ATriggerBox_WithCollision::StaticClass());
 
@@ -163,7 +195,7 @@ void APlayerCharacter::ActivateButton()
 				}
 			}
 		}
-	}
+	}*/
 
 
 }
@@ -173,6 +205,11 @@ void APlayerCharacter::ActivateButton()
 void APlayerCharacter::SetWithin(bool wBool)
 {
 	isWithinTrigger = wBool;
+}
+
+USceneComponent* APlayerCharacter::GetHand()
+{
+	return Hand;
 }
 
 void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
