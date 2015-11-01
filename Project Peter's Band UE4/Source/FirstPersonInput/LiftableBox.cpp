@@ -55,15 +55,10 @@ void ALiftableBox::Interact(AActor* Interactor)
 		AttachedObject->DetachFromParent();
 		
 		AttachedObject->SetWorldLocation(PlayerHand->GetComponentLocation());
-
-		//holdingObject = false;
-
-		//@Note: Hack for a one floor setup.
-		//AttachedObject->SetWorldLocation(FVector(Hand->GetComponentLocation().X, Hand->GetComponentLocation().Y, 50));
 	}
 	else
 	{
-		if (this->GetActorLocation().Z - 50 < Interactor->GetActorLocation().Z)
+		if (this->GetActorLocation().Z < Interactor->GetActorLocation().Z)
 		{
 			Collider->SetSimulatePhysics(false);
 

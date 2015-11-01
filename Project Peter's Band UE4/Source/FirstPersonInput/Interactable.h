@@ -23,6 +23,8 @@ public:
 	UFUNCTION()
 	virtual void Interact(AActor* Interactor) PURE_VIRTUAL(AInteractable::Interact, );
 
+	bool IsInteractable;
+
 
 protected:
 

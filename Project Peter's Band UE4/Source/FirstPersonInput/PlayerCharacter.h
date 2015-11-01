@@ -39,8 +39,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	void SetWithin(bool wBool);
-
 	USceneComponent* GetHand();
 
 protected:
@@ -71,15 +69,9 @@ public:
 	
 protected:
 
-	bool isWithinTrigger;
-	
-	APlayerController *MyPlayerController;
-	
-	bool holdingObject;
+	UFUNCTION()
+		void ActivateButton();
 
-	bool activateBtnPressed;
-
-	void ActivateButton();
 
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
