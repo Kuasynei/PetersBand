@@ -2,7 +2,6 @@
 
 #include "FirstPersonInput.h"
 #include "Interactable.h"
-#include "TriggerBox_WithCollision.h"
 #include "PlayerCharacter.h"
 
 
@@ -29,7 +28,7 @@ APlayerCharacter::APlayerCharacter()
 
 	//BOX PICKUP CODE//
 	Hand = CreateDefaultSubobject<USceneComponent>(TEXT("Hand"));
-	Hand->AttachTo(RootComponent);
+	Hand->AttachTo(FirstPersonCameraComponent);
 	Hand->RelativeLocation = FVector(100, 0, 0);
 	//BOX PICKUP CODE//
 
