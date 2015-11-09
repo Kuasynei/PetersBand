@@ -43,7 +43,7 @@ void ALiftableBox::Interact(AActor* Interactor)
 
 	//LIFT BOX CODE
 	
-	if (this->GetActorLocation().Z < Interactor->GetActorLocation().Z)
+	if (bIsAbove(Interactor))
 	{
 		Collider->SetSimulatePhysics(false);
 		this->AttachRootComponentTo(Cast<APlayerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
@@ -61,6 +61,22 @@ void ALiftableBox::Drop(AActor* Player)
 	RootComponent->DetachFromParent();
 
 	RootComponent->SetWorldLocation(Cast<APlayerCharacter>(Player)->GetHand()->GetComponentLocation());
+}
+
+bool ALiftableBox::bIsAbove(AActor* Player)
+{
+	FVector PlayerToBox = Cast<APlayerCharacter>(Player)->GetActorLocation() - this->GetActorLocation();
+
+	PlayerToBox.Normalize();
+
+	GEngine->AddOnScreenDebugMessage(3, 2.f, FColor::Green, FString::Printf(TEXT("Normalized Z Vector : %f"), PlayerToBox.Z));
+
+	if (PlayerToBox.Z < 0.60f)
+	{
+		return true;
+	}
+	else
+		return false;
 }
 
 

@@ -114,6 +114,8 @@ void APlayerCharacter::ActivateButton()
 {
 	if (bCurrentlyLiftingBox)
 	{
+		bCurrentlyLiftingBox = false;
+
 		PickedUpBox->Drop(this);
 	}
 
@@ -146,8 +148,6 @@ void APlayerCharacter::ActivateButton()
 
 	}
 }
-
-
 
 //USE BUTTON CODE END//
 
