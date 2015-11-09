@@ -24,7 +24,14 @@ public:
 	UFUNCTION()
 	virtual void Interact(AActor* Interactor);
 
+	void Drop(AActor* Player);
+
 private:
 	
 	bool isLifted;
+
+protected:
+
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent *VisibleBox;
 };
