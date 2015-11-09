@@ -13,6 +13,10 @@ ALiftableBox::ALiftableBox()
 	
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 
+	VisibleBox = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisibleBox"));
+	VisibleBox->AttachTo(Collider);
+
+
 	RootComponent = Collider;
 }
 
@@ -29,7 +33,6 @@ void ALiftableBox::BeginPlay()
 void ALiftableBox::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
 }
 
 void ALiftableBox::Interact(AActor* Interactor)
@@ -39,31 +42,41 @@ void ALiftableBox::Interact(AActor* Interactor)
 	APlayerCharacter *Player = Cast<APlayerCharacter>(Interactor);
 
 	//LIFT BOX CODE
-
-	USceneComponent *PlayerHand = nullptr;
-
-	PlayerHand = Player->GetHand();
-
-	if (PlayerHand->AttachChildren.Num() > 0)
+	
+	if (bIsAbove(Interactor))
 	{
-		USceneComponent *AttachedObject;
+		Collider->SetSimulatePhysics(false);
+		this->AttachRootComponentTo(Cast<APlayerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
+		Player->SetObjectLifted(this);
+		VisibleBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
+}
 
-		AttachedObject = PlayerHand->AttachChildren[0];
+void ALiftableBox::Drop(AActor* Player)
+{
+	VisibleBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
-		Collider->SetSimulatePhysics(true);
+	Collider->SetSimulatePhysics(true);
 
-		AttachedObject->DetachFromParent();
-		
-		AttachedObject->SetWorldLocation(PlayerHand->GetComponentLocation());
+	RootComponent->DetachFromParent();
+
+	RootComponent->SetWorldLocation(Cast<APlayerCharacter>(Player)->GetHand()->GetComponentLocation());
+}
+
+bool ALiftableBox::bIsAbove(AActor* Player)
+{
+	FVector PlayerToBox = Cast<APlayerCharacter>(Player)->GetActorLocation() - this->GetActorLocation();
+
+	PlayerToBox.Normalize();
+
+	GEngine->AddOnScreenDebugMessage(3, 2.f, FColor::Green, FString::Printf(TEXT("Normalized Z Vector : %f"), PlayerToBox.Z));
+
+	if (PlayerToBox.Z < 0.60f)
+	{
+		return true;
 	}
 	else
-	{
-		if (this->GetActorLocation().Z < Interactor->GetActorLocation().Z)
-		{
-			Collider->SetSimulatePhysics(false);
-			this->AttachRootComponentTo(Cast<APlayerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
-		}
-	}
+		return false;
 }
 
 

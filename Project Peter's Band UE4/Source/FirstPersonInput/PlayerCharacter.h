@@ -4,6 +4,7 @@
 
 #include "GameFramework/Character.h"
 #include "Equips/BaseEquips.h"
+#include "LiftableBox.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -44,6 +45,7 @@ public:
 
 	//A function that will equip an object of type ABaseEquips.
 	void Equip(TSubclassOf<ABaseEquips> EquipType);
+	void SetObjectLifted(ALiftableBox* Box);
 
 protected:
 
@@ -65,6 +67,8 @@ protected:
 	*/
 	void LookUpAtRate(float Rate);
 
+
+
 public:
 	/** Returns Mesh1P subobject **/
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
@@ -73,6 +77,8 @@ public:
 	
 protected:
 
+	UFUNCTION()
+	void ActivateButton();
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
 
@@ -90,4 +96,10 @@ protected:
 
 	UFUNCTION()
 	void ActivateButton();
+private:
+
+	ALiftableBox *PickedUpBox;
+
+	bool bCurrentlyLiftingBox;
+
 };

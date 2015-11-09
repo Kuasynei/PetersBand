@@ -41,10 +41,15 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+
 	if (DefaultEquipClass)
 	{
 		Equip(DefaultEquipClass);
 	}
+	
+
+	bCurrentlyLiftingBox = false;
+
 }
 
 // Called every frame
@@ -63,6 +68,8 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+
+
 	InputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 
@@ -79,32 +86,39 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 
 void APlayerCharacter::MoveForward(float Value)
 {
-	if (Value != 0.0f)
-	{
-		// add movement in that direction
-		AddMovementInput(GetActorForwardVector(), Value);
-	}
+	
+		if (Value != 0.0f)
+		{
+			// add movement in that direction
+			AddMovementInput(GetActorForwardVector(), Value);
+		}
+	
 }
 
 void APlayerCharacter::MoveRight(float Value)
 {
-	if (Value != 0.0f)
-	{
-		// add movement in that direction
-		AddMovementInput(GetActorRightVector(), Value);
-	}
+	
+		if (Value != 0.0f)
+		{
+			// add movement in that direction
+			AddMovementInput(GetActorRightVector(), Value);
+		}
+	
 }
 
 void APlayerCharacter::TurnAtRate(float Rate)
 {
-	// calculate delta for this frame from the rate information
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds()); //yaw = horizontal rotation
+		// calculate delta for this frame from the rate information
+		AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds()); //yaw = horizontal rotation
+	
 }
 
 void APlayerCharacter::LookUpAtRate(float Rate)
 {
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds()); //pitch vertical rotation
+	
+		// calculate delta for this frame from the rate information
+		AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds()); //pitch vertical rotation
+	
 }
 
 //MOVEMENT CODE END//
@@ -114,6 +128,13 @@ void APlayerCharacter::LookUpAtRate(float Rate)
 
 void APlayerCharacter::ActivateButton()
 {
+	if (bCurrentlyLiftingBox)
+	{
+		bCurrentlyLiftingBox = false;
+
+		PickedUpBox->Drop(this);
+	}
+
 	//Create an array to hold all of the overlapping actors on the player
 	TArray<AActor*> OverlappingActors;
 
@@ -144,9 +165,8 @@ void APlayerCharacter::ActivateButton()
 	}
 }
 
-
-
 //USE BUTTON CODE END//
+
 
 USceneComponent* APlayerCharacter::GetHand()
 {
@@ -166,6 +186,11 @@ void APlayerCharacter::Equip(TSubclassOf<ABaseEquips> EquipType)
 	Equipped = GetWorld()->SpawnActor<ABaseEquips>(EquipType, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
 	Equipped->AttachRootComponentTo(RootComponent);
 	//Equipped->AttachRootComponentTo(GetMesh(), TEXT("RightHand"));
+
+void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
+{
+	PickedUpBox = Box;
+	bCurrentlyLiftingBox = true;
 }
 
 void APlayerCharacter::OnActorOverlap(AActor* OtherActor)

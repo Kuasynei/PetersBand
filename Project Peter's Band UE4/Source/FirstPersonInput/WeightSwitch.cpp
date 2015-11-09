@@ -23,6 +23,8 @@ AWeightSwitch::AWeightSwitch()
 void AWeightSwitch::BeginPlay()
 {
 	Super::BeginPlay();
+
+	bIsActivated = false;
 	
 }
 
@@ -37,9 +39,15 @@ void AWeightSwitch::OnActorOverlap(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		GEngine->AddOnScreenDebugMessage(1, 2, FColor::Green, TEXT("IN"));
+		if (!bIsActivated)
+		{
+			GEngine->AddOnScreenDebugMessage(1, 2, FColor::Green, TEXT("IN"));
 
-		TargetToAffect->Interact(OtherActor);
+			TargetToAffect->Interact(OtherActor);
+
+			bIsActivated = true;
+		}
+		
 	}
 }
 
@@ -48,6 +56,10 @@ void AWeightSwitch::OnActorOverlapEnd(AActor* OtherActor)
 	if (OtherActor != GetOwner())
 	{
 		GEngine->AddOnScreenDebugMessage(1, 2, FColor::Green, TEXT("OUT"));
+
+		TargetToAffect->Interact(OtherActor);
+
+		bIsActivated = false;
 	}
 }
 

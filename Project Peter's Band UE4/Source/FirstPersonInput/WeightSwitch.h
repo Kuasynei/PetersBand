@@ -36,4 +36,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UBoxComponent* Collider;
 
+private:
+
+	bool bIsActivated;
+
 };
