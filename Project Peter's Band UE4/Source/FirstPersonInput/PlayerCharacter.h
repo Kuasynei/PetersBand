@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "Equips/BaseEquips.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -41,6 +42,9 @@ public:
 
 	USceneComponent* GetHand();
 
+	//A function that will equip an object of type ABaseEquips.
+	void Equip(TSubclassOf<ABaseEquips> EquipType);
+
 protected:
 
 	/** Handles moving forward/backward */
@@ -69,12 +73,14 @@ public:
 	
 protected:
 
-	UFUNCTION()
-		void ActivateButton();
-
-
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
+
+	//A default equip established in the editor
+	//and an equipped variable to hold the currently equipped tool.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<ABaseEquips> DefaultEquipClass;
+		ABaseEquips* Equipped;
 
 	UFUNCTION()
 	virtual void OnActorOverlap(AActor* OtherActor);
@@ -82,8 +88,6 @@ protected:
 	UFUNCTION()
 	virtual void OnActorOverlapEnd(AActor* OtherActor);
 
-
-
-	
-	
+	UFUNCTION()
+	void ActivateButton();
 };

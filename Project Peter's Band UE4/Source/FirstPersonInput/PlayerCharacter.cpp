@@ -11,7 +11,7 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.f);
+	GetCapsuleComponent()->InitCapsuleSize(42.f, 90.f);
 
 	BaseTurnRate = 60.f;
 	BaseLookUpRate = 60.f;
@@ -41,6 +41,10 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (DefaultEquipClass)
+	{
+		Equip(DefaultEquipClass);
+	}
 }
 
 // Called every frame
@@ -147,6 +151,21 @@ void APlayerCharacter::ActivateButton()
 USceneComponent* APlayerCharacter::GetHand()
 {
 	return Hand;
+}
+
+void APlayerCharacter::Equip(TSubclassOf<ABaseEquips> EquipType)
+{
+	if (Equipped != NULL && Equipped->IsA(EquipType))
+	{
+		return;
+	}
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = this;
+
+	Equipped = GetWorld()->SpawnActor<ABaseEquips>(EquipType, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
+	Equipped->AttachRootComponentTo(RootComponent);
+	//Equipped->AttachRootComponentTo(GetMesh(), TEXT("RightHand"));
 }
 
 void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
