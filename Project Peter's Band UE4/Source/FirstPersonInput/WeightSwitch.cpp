@@ -48,6 +48,8 @@ void AWeightSwitch::OnActorOverlapEnd(AActor* OtherActor)
 	if (OtherActor != GetOwner())
 	{
 		GEngine->AddOnScreenDebugMessage(1, 2, FColor::Green, TEXT("OUT"));
+
+		TargetToAffect->Interact(OtherActor);
 	}
 }
 

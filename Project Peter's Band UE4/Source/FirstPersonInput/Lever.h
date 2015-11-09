@@ -3,32 +3,28 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "Interactable.generated.h"
+#include "Interactable.h"
+#include "Lever.generated.h"
 
-UCLASS(ABSTRACT)
-class FIRSTPERSONINPUT_API AInteractable : public AActor
+UCLASS()
+class FIRSTPERSONINPUT_API ALever : public AInteractable
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AInteractable();
+	ALever();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
+	UPROPERTY(EditAnywhere)
+	AInteractable *TargetToAffect;
+
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION()
-	virtual void Interact(AActor* Interactor) PURE_VIRTUAL(AInteractable::Interact, );
-
-	bool IsInteractable;
-
-
-protected:
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UBoxComponent* Collider;
+		virtual void Interact(AActor* Interactor);
 	
 };

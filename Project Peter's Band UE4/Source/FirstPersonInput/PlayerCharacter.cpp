@@ -41,6 +41,8 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	bCurrentlyLiftingBox = false;
+
 }
 
 // Called every frame
@@ -119,6 +121,11 @@ void APlayerCharacter::LookUpAtRate(float Rate)
 
 void APlayerCharacter::ActivateButton()
 {
+	if (bCurrentlyLiftingBox)
+	{
+		PickedUpBox->Drop(this);
+	}
+
 	//Create an array to hold all of the overlapping actors on the player
 	TArray<AActor*> OverlappingActors;
 
@@ -157,6 +164,12 @@ void APlayerCharacter::ActivateButton()
 USceneComponent* APlayerCharacter::GetHand()
 {
 	return Hand;
+}
+
+void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
+{
+	PickedUpBox = Box;
+	bCurrentlyLiftingBox = true;
 }
 
 void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
