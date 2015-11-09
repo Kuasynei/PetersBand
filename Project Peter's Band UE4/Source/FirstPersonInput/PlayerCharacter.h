@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "LiftableBox.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -41,6 +42,8 @@ public:
 
 	USceneComponent* GetHand();
 
+	void SetObjectLifted(ALiftableBox* Box);
+
 protected:
 
 	/** Handles moving forward/backward */
@@ -70,8 +73,7 @@ public:
 protected:
 
 	UFUNCTION()
-		void ActivateButton();
-
+	void ActivateButton();
 
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
@@ -82,6 +84,11 @@ protected:
 	UFUNCTION()
 	virtual void OnActorOverlapEnd(AActor* OtherActor);
 
+private:
+
+	ALiftableBox *PickedUpBox;
+
+	bool bCurrentlyLiftingBox;
 
 
 	

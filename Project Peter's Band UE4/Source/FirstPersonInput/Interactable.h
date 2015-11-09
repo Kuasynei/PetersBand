@@ -5,7 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "Interactable.generated.h"
 
-UCLASS()
+UCLASS(ABSTRACT)
 class FIRSTPERSONINPUT_API AInteractable : public AActor
 {
 	GENERATED_BODY()

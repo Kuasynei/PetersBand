@@ -13,6 +13,10 @@ ALiftableBox::ALiftableBox()
 	
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 
+	VisibleBox = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisibleBox"));
+	VisibleBox->AttachTo(Collider);
+
+
 	RootComponent = Collider;
 }
 
@@ -29,7 +33,6 @@ void ALiftableBox::BeginPlay()
 void ALiftableBox::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
 }
 
 void ALiftableBox::Interact(AActor* Interactor)
@@ -39,31 +42,25 @@ void ALiftableBox::Interact(AActor* Interactor)
 	APlayerCharacter *Player = Cast<APlayerCharacter>(Interactor);
 
 	//LIFT BOX CODE
-
-	USceneComponent *PlayerHand = nullptr;
-
-	PlayerHand = Player->GetHand();
-
-	if (PlayerHand->AttachChildren.Num() > 0)
+	
+	if (this->GetActorLocation().Z < Interactor->GetActorLocation().Z)
 	{
-		USceneComponent *AttachedObject;
-
-		AttachedObject = PlayerHand->AttachChildren[0];
-
-		Collider->SetSimulatePhysics(true);
-
-		AttachedObject->DetachFromParent();
-		
-		AttachedObject->SetWorldLocation(PlayerHand->GetComponentLocation());
+		Collider->SetSimulatePhysics(false);
+		this->AttachRootComponentTo(Cast<APlayerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
+		Player->SetObjectLifted(this);
+		VisibleBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
-	else
-	{
-		if (this->GetActorLocation().Z < Interactor->GetActorLocation().Z)
-		{
-			Collider->SetSimulatePhysics(false);
-			this->AttachRootComponentTo(Cast<APlayerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
-		}
-	}
+}
+
+void ALiftableBox::Drop(AActor* Player)
+{
+	VisibleBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+
+	Collider->SetSimulatePhysics(true);
+
+	RootComponent->DetachFromParent();
+
+	RootComponent->SetWorldLocation(Cast<APlayerCharacter>(Player)->GetHand()->GetComponentLocation());
 }
 
 
