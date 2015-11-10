@@ -12,12 +12,12 @@ ALiftableBox::ALiftableBox()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
-
+	
 	VisibleBox = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisibleBox"));
 	VisibleBox->AttachTo(Collider);
-
-
+	
 	RootComponent = Collider;
+
 }
 
 // Called when the game starts or when spawned
@@ -46,9 +46,12 @@ void ALiftableBox::Interact(AActor* Interactor)
 	if (bIsAbove(Interactor))
 	{
 		Collider->SetSimulatePhysics(false);
-		this->AttachRootComponentTo(Cast<APlayerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
-		Player->SetObjectLifted(this);
+
 		VisibleBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		this->AttachRootComponentTo(Cast<APlayerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
+		
+		Player->SetObjectLifted(this);	
 	}
 }
 
@@ -58,6 +61,7 @@ void ALiftableBox::Drop(AActor* Player)
 
 	Collider->SetSimulatePhysics(true);
 
+	//THIS HAS TO BE THE PROBLEM
 	RootComponent->DetachFromParent();
 
 	RootComponent->SetWorldLocation(Cast<APlayerCharacter>(Player)->GetHand()->GetComponentLocation());

@@ -45,6 +45,7 @@ public:
 
 	//A function that will equip an object of type ABaseEquips.
 	void Equip(TSubclassOf<ABaseEquips> EquipType);
+	
 	void SetObjectLifted(ALiftableBox* Box);
 
 protected:
@@ -79,6 +80,7 @@ protected:
 
 	UFUNCTION()
 	void ActivateButton();
+	
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
 
@@ -94,8 +96,6 @@ protected:
 	UFUNCTION()
 	virtual void OnActorOverlapEnd(AActor* OtherActor);
 
-	UFUNCTION()
-	void ActivateButton();
 private:
 
 	ALiftableBox *PickedUpBox;

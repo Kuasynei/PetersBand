@@ -133,6 +133,8 @@ void APlayerCharacter::ActivateButton()
 		bCurrentlyLiftingBox = false;
 
 		PickedUpBox->Drop(this);
+
+		return;
 	}
 
 	//Create an array to hold all of the overlapping actors on the player
@@ -186,6 +188,7 @@ void APlayerCharacter::Equip(TSubclassOf<ABaseEquips> EquipType)
 	Equipped = GetWorld()->SpawnActor<ABaseEquips>(EquipType, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
 	Equipped->AttachRootComponentTo(RootComponent);
 	//Equipped->AttachRootComponentTo(GetMesh(), TEXT("RightHand"));
+}
 
 void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
 {
