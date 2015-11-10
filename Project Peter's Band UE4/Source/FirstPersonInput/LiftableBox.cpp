@@ -57,9 +57,9 @@ void ALiftableBox::Interact(AActor* Interactor)
 
 void ALiftableBox::Drop(AActor* Player)
 {
-	VisibleBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-
 	Collider->SetSimulatePhysics(true);
+
+	VisibleBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
 	//THIS HAS TO BE THE PROBLEM
 	RootComponent->DetachFromParent();
