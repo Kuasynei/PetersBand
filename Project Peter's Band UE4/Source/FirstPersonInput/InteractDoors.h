@@ -28,4 +28,6 @@ private:
 
 	bool bIsOpen;
 	
+protected:
+	bool active;
 };
