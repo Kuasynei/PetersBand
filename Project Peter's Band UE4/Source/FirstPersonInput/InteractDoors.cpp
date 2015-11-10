@@ -33,8 +33,8 @@ void AInteractDoors::Tick( float DeltaTime )
 
 void AInteractDoors::Interact(AActor* Interactor)
 {
-	FRotator CurrentRotation = GetActorRotation();
-	CurrentRotation.Yaw += 90;
-	SetActorRotation(CurrentRotation);
+		FRotator CurrentRotation = GetActorRotation();
+		CurrentRotation.Yaw += 90;
+		SetActorRotation(CurrentRotation);
 }
 

@@ -23,5 +23,9 @@ public:
 
 	UFUNCTION()
 	virtual void Interact(AActor* Interactor);
+
+private:
+
+	bool bIsOpen;
 	
 };
