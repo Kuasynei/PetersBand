@@ -17,6 +17,8 @@ AWeightSwitch::AWeightSwitch()
 	OnActorBeginOverlap.AddDynamic(this, &AWeightSwitch::OnActorOverlap);
 	OnActorEndOverlap.AddDynamic(this, &AWeightSwitch::OnActorOverlapEnd);
 
+	NumOfObjects = 0;
+
 }
 
 // Called when the game starts or when spawned
@@ -33,21 +35,36 @@ void AWeightSwitch::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+	TArray<AActor*> OverlappingActors;
+
+	GetOverlappingActors(OverlappingActors, AActor::StaticClass());
+
+	if (OverlappingActors.Num() >= 1)
+	{
+		if (!bIsActivated)
+		{
+			TargetToAffect->Interact(Interactor);
+			bIsActivated = true;
+		}
+	}
+	else if (OverlappingActors.Num() == 0)
+	{
+		if (bIsActivated)
+		{
+			TargetToAffect->Interact(Interactor);
+			bIsActivated = false;
+		}
+	}
+
+	GEngine->AddOnScreenDebugMessage(3, 2.f, FColor::Magenta, FString::Printf(TEXT("Objects Inside: %i"), OverlappingActors.Num()));
 }
 
 void AWeightSwitch::OnActorOverlap(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		if (!bIsActivated)
-		{
-			GEngine->AddOnScreenDebugMessage(1, 2, FColor::Green, TEXT("IN"));
-
-			TargetToAffect->Interact(OtherActor);
-
-			bIsActivated = true;
-		}
-		
+		Interactor = OtherActor;
+		NumOfObjects++;
 	}
 }
 
@@ -57,9 +74,7 @@ void AWeightSwitch::OnActorOverlapEnd(AActor* OtherActor)
 	{
 		GEngine->AddOnScreenDebugMessage(1, 2, FColor::Green, TEXT("OUT"));
 
-		TargetToAffect->Interact(OtherActor);
-
-		bIsActivated = false;
+		NumOfObjects--;
 	}
 }
 

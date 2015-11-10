@@ -40,4 +40,8 @@ private:
 
 	bool bIsActivated;
 
+	int NumOfObjects;
+
+	AActor* Interactor;
+
 };
