@@ -34,4 +34,8 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent *VisibleBox;
+
+private:
+
+	bool bIsAbove(AActor* Player);
 };

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "Equips/BaseEquips.h"
 #include "LiftableBox.h"
 #include "PlayerCharacter.generated.h"
 
@@ -42,6 +43,9 @@ public:
 
 	USceneComponent* GetHand();
 
+	//A function that will equip an object of type ABaseEquips.
+	void Equip(TSubclassOf<ABaseEquips> EquipType);
+	
 	void SetObjectLifted(ALiftableBox* Box);
 
 protected:
@@ -64,6 +68,8 @@ protected:
 	*/
 	void LookUpAtRate(float Rate);
 
+
+
 public:
 	/** Returns Mesh1P subobject **/
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
@@ -74,9 +80,15 @@ protected:
 
 	UFUNCTION()
 	void ActivateButton();
-
+	
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
+
+	//A default equip established in the editor
+	//and an equipped variable to hold the currently equipped tool.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<ABaseEquips> DefaultEquipClass;
+		ABaseEquips* Equipped;
 
 	UFUNCTION()
 	virtual void OnActorOverlap(AActor* OtherActor);
@@ -90,7 +102,4 @@ private:
 
 	bool bCurrentlyLiftingBox;
 
-
-	
-	
 };

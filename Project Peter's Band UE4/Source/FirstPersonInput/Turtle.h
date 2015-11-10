@@ -3,17 +3,16 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "Interactable.h"
-#include "InteractDoors.generated.h"
+#include "Turtle.generated.h"
 
 UCLASS()
-class FIRSTPERSONINPUT_API AInteractDoors : public AInteractable
+class FIRSTPERSONINPUT_API ATurtle : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AInteractDoors();
+	ATurtle();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -21,13 +20,15 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UFUNCTION()
-	virtual void Interact(AActor* Interactor);
-
-private:
-
-	bool bIsOpen;
-	
 protected:
-	bool active;
+
+	UPROPERTY(EditAnywhere)
+	UBoxComponent* Collider;
+
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* Mesh;
+
+
+	
+	
 };

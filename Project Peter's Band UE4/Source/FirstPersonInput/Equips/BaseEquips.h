@@ -3,17 +3,16 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "Interactable.h"
-#include "InteractDoors.generated.h"
+#include "BaseEquips.generated.h"
 
 UCLASS()
-class FIRSTPERSONINPUT_API AInteractDoors : public AInteractable
+class FIRSTPERSONINPUT_API ABaseEquips : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AInteractDoors();
+	ABaseEquips();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -21,13 +20,9 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UFUNCTION()
-	virtual void Interact(AActor* Interactor);
-
-private:
-
-	bool bIsOpen;
-	
 protected:
-	bool active;
+	//A pointer to this class, not to an instanced object.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<ABaseEquips> DefaultEquipClass;
+
 };

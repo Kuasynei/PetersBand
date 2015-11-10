@@ -11,7 +11,7 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.f);
+	GetCapsuleComponent()->InitCapsuleSize(42.f, 90.f);
 
 	BaseTurnRate = 60.f;
 	BaseLookUpRate = 60.f;
@@ -41,6 +41,13 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+
+	if (DefaultEquipClass)
+	{
+		Equip(DefaultEquipClass);
+	}
+	
+
 	bCurrentlyLiftingBox = false;
 
 }
@@ -61,6 +68,8 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+
+
 	InputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 
@@ -77,32 +86,39 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 
 void APlayerCharacter::MoveForward(float Value)
 {
-	if (Value != 0.0f)
-	{
-		// add movement in that direction
-		AddMovementInput(GetActorForwardVector(), Value);
-	}
+	
+		if (Value != 0.0f)
+		{
+			// add movement in that direction
+			AddMovementInput(GetActorForwardVector(), Value);
+		}
+	
 }
 
 void APlayerCharacter::MoveRight(float Value)
 {
-	if (Value != 0.0f)
-	{
-		// add movement in that direction
-		AddMovementInput(GetActorRightVector(), Value);
-	}
+	
+		if (Value != 0.0f)
+		{
+			// add movement in that direction
+			AddMovementInput(GetActorRightVector(), Value);
+		}
+	
 }
 
 void APlayerCharacter::TurnAtRate(float Rate)
 {
-	// calculate delta for this frame from the rate information
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds()); //yaw = horizontal rotation
+		// calculate delta for this frame from the rate information
+		AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds()); //yaw = horizontal rotation
+	
 }
 
 void APlayerCharacter::LookUpAtRate(float Rate)
 {
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds()); //pitch vertical rotation
+	
+		// calculate delta for this frame from the rate information
+		AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds()); //pitch vertical rotation
+	
 }
 
 //MOVEMENT CODE END//
@@ -114,7 +130,11 @@ void APlayerCharacter::ActivateButton()
 {
 	if (bCurrentlyLiftingBox)
 	{
+		bCurrentlyLiftingBox = false;
+
 		PickedUpBox->Drop(this);
+
+		return;
 	}
 
 	//Create an array to hold all of the overlapping actors on the player
@@ -147,13 +167,27 @@ void APlayerCharacter::ActivateButton()
 	}
 }
 
-
-
 //USE BUTTON CODE END//
+
 
 USceneComponent* APlayerCharacter::GetHand()
 {
 	return Hand;
+}
+
+void APlayerCharacter::Equip(TSubclassOf<ABaseEquips> EquipType)
+{
+	if (Equipped != NULL && Equipped->IsA(EquipType))
+	{
+		return;
+	}
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = this;
+
+	Equipped = GetWorld()->SpawnActor<ABaseEquips>(EquipType, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
+	Equipped->AttachRootComponentTo(RootComponent);
+	//Equipped->AttachRootComponentTo(GetMesh(), TEXT("RightHand"));
 }
 
 void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
