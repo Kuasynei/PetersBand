@@ -9,8 +9,20 @@ void AUIPlayerController::Tick(float DeltaSeconds)
 
 		if (APlayerController::WasInputKeyJustPressed(EKeys::P))
 		{
-			AUIPlayerController::PauseMenu();
-			SetPause(true);
+			if (!paused)
+			{
+				AUIPlayerController::PauseMenu();
+				SetPause(true);
+				paused = true;
+			}
+
+			else if (paused)
+			{
+				AUIPlayerController::PauseMenu();
+				SetPause(false);
+				paused = false;
+
+			}
 
 		}
 
@@ -20,23 +32,33 @@ void AUIPlayerController::Tick(float DeltaSeconds)
 void AUIPlayerController::PauseMenu()
 {
 
-	if (UIPauseMenu)
+	if (!paused)
 	{
-		pauseMenu = CreateWidget<UUserWidget>(this, UIPauseMenu);
-
-		if (pauseMenu)
+		if (UIPauseMenu)
 		{
-			pauseMenu->AddToViewport(0);
-			FInputModeUIOnly Mode;
-			Mode.SetWidgetToFocus(pauseMenu->GetCachedWidget());
-			SetInputMode(Mode);
+			pauseMenu = CreateWidget<UUserWidget>(this, UIPauseMenu);
+
+			if (pauseMenu)
+			{
+				pauseMenu->AddToViewport(0);
+				//FInputModeUIOnly Mode;
+				//Mode.SetWidgetToFocus(pauseMenu->GetCachedWidget());
+				//SetInputMode(Mode);
 
 
+
+			}
+
+			bShowMouseCursor = true;
 
 		}
+	}
 
-		bShowMouseCursor = true;
-
+	else if (paused)
+	{
+		pauseMenu->RemoveFromViewport();
+		bShowMouseCursor = false;
+	
 	}
 
 

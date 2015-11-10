@@ -20,6 +20,8 @@ class FIRSTPERSONINPUT_API AUIPlayerController : public APlayerController
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
 			TSubclassOf<UUserWidget> UIPauseMenu;
 
+
+
 protected:
 
 	UUserWidget* pauseMenu;
@@ -27,7 +29,11 @@ protected:
 	
 	void PauseMenu();
 	virtual void Tick(float DeltaSeconds) override;
-	
+
+private:
+	bool paused = false;
+
+
 
 	
 	
