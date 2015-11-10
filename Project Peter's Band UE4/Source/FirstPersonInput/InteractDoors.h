@@ -24,4 +24,6 @@ public:
 	UFUNCTION()
 	virtual void Interact(AActor* Interactor);
 	
+protected:
+	bool active;
 };
