@@ -13,8 +13,9 @@ ATurtle::ATurtle()
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 	RootComponent = Collider;
 
-	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
-	Mesh->AttachTo(RootComponent);
+	//Uncomment when the skeletal is given to us instead of the Static Mesh
+	//Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
+	//Mesh->AttachTo(RootComponent);
 
 	StatMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StatMesh"));
 	StatMesh->AttachTo(RootComponent);
