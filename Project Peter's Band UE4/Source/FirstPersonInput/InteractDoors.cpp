@@ -21,6 +21,8 @@ AInteractDoors::AInteractDoors()
 void AInteractDoors::BeginPlay()
 {
 	Super::BeginPlay();
+
+	active = true;
 	
 }
 
@@ -33,11 +35,11 @@ void AInteractDoors::Tick( float DeltaTime )
 
 void AInteractDoors::Interact(AActor* Interactor)
 {
-	if (active)
+	/*if (active)
 		active = false;
 	else
 		active = true;
-
+		*/
 	SetActorHiddenInGame(!active);
 	SetActorEnableCollision(active);
 	SetActorTickEnabled(active);
