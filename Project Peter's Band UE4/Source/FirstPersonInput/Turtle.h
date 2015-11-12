@@ -26,7 +26,11 @@ protected:
 	UBoxComponent* Collider;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* Mesh;
+	USkeletalMeshComponent* Mesh;
+
+	//Currently neeeded until skeleton is given for the turtle
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* StatMesh;
 
 
 	
