@@ -14,13 +14,13 @@ void AMop::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	//Drawing a stick for the mop.
-	FVector StickTop = FVector(50, 0, 140.f);
-	FVector StickBottom = FVector(50, 0, -140.f);
+	FVector StickTop = FVector(50, 0, 140.f); //+ this->GetTransform().GetLocation();
+	FVector StickBottom = FVector(50, 0, -140.f); //+ this->GetTransform().GetLocation();
 	float StickRadius = 5.f;
 	int32 CylinderSegments = 12;
 	FColor StickColor = FColor::Red;
 
-	//DrawDebugCylinder(RootComponent(), StickTop, StickBottom, StickRadius, CylinderSegments, StickColor, true, 1);
+	DrawDebugCylinder(GetWorld(), StickTop, StickBottom, StickRadius, CylinderSegments, StickColor, true, 1);
 }
 
 void AMop::OnActorOverlap(AActor* OtherActor)
