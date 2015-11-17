@@ -26,7 +26,7 @@ public:
 protected:
 
 	UPROPERTY(EditAnywhere)
-	UBoxComponent* Collider;
+	UShapeComponent* Collider;
 
 	UPROPERTY(EditAnywhere)
 	USkeletalMeshComponent* SkeletalMesh;
