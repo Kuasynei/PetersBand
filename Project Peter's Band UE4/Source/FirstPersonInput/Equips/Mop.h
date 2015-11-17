@@ -16,9 +16,17 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 protected:
-	//End of the mop
+	//Root Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		USphereComponent* Collider;
+		UBoxComponent* RootCollider;
+
+	//The end of the mop
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		USphereComponent* MopHitbox;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		USkeletalMeshComponent* MopMesh;
+
 
 protected:
 	UFUNCTION()

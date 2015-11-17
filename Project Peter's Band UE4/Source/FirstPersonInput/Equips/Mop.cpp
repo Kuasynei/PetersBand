@@ -5,22 +5,35 @@
 
 AMop::AMop()
 {
-	Collider = CreateDefaultSubobject<USphereComponent>(TEXT("Collider"));
-	RootComponent = Collider;
-}
+	RootCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("RootCollider"));
+	RootComponent = RootCollider;
 
+	MopHitbox = CreateDefaultSubobject<USphereComponent>(TEXT("MopHitbox"));
+	MopHitbox->AttachTo(RootComponent);
+	MopHitbox->SetRelativeLocation(FVector(100, 0, -100));
+}
 void AMop::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 	//Drawing a stick for the mop.
-	FVector StickTop = FVector(50, 0, 140.f); //+ this->GetTransform().GetLocation();
-	FVector StickBottom = FVector(50, 0, -140.f); //+ this->GetTransform().GetLocation();
+	FVector StickTop = FVector(10, 20, 70);
+	StickTop = RootComponent->GetComponentRotation().RotateVector(StickTop);
+	StickTop += RootComponent->GetComponentTransform().GetLocation();
+
+	FVector StickBottom = FVector(100, 0, -100);
+	StickBottom = RootComponent->GetComponentRotation().RotateVector(StickBottom);
+	StickBottom += RootComponent->GetComponentTransform().GetLocation();
+
 	float StickRadius = 5.f;
-	int32 CylinderSegments = 12;
+	int32 CylinderSegments = 32;
 	FColor StickColor = FColor::Red;
 
-	DrawDebugCylinder(GetWorld(), StickTop, StickBottom, StickRadius, CylinderSegments, StickColor, true, 1);
+	DrawDebugCylinder(GetWorld(), StickTop, StickBottom, StickRadius, CylinderSegments, StickColor, true, DeltaTime*2);
+
+	//GEngine->AddOnScreenDebugMessage(4, 2.f, FColor::Red, (TEXT("ForwardVector: " + RootComponent->GetForwardVector().ToString())));
+	//GEngine->AddOnScreenDebugMessage(5, 2.f, FColor::Magenta, (TEXT("Rot: " + RootComponent->GetComponentRotation().ToString() )));
+
 }
 
 void AMop::OnActorOverlap(AActor* OtherActor)
