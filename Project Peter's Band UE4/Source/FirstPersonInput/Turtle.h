@@ -3,10 +3,11 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "EnemyInteractable.h"
 #include "Turtle.generated.h"
 
 UCLASS()
-class FIRSTPERSONINPUT_API ATurtle : public AActor
+class FIRSTPERSONINPUT_API ATurtle : public AEnemyInteractable
 {
 	GENERATED_BODY()
 	
@@ -20,17 +21,11 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	UFUNCTION()
+	virtual void EnemyInteract(AActor* Interactor);
+
 protected:
 
-	UPROPERTY(EditAnywhere)
-	UBoxComponent* Collider;
-
-	UPROPERTY(EditAnywhere)
-	USkeletalMeshComponent* Mesh;
-
-	//Currently neeeded until skeleton is given for the turtle
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* StatMesh;
 
 
 	

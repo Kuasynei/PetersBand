@@ -36,3 +36,9 @@ void ATurtle::Tick( float DeltaTime )
 
 }
 
+void ATurtle::EnemyInteract(AActor* Interactor)
+{
+	//DO INTERACTIONS HERE
+}
+
+
