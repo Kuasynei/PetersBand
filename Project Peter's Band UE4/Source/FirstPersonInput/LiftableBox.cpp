@@ -45,9 +45,9 @@ void ALiftableBox::Interact(AActor* Interactor)
 	
 	if (bIsAbove(Interactor))
 	{
-		Collider->SetSimulatePhysics(false);
-
 		VisibleBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		Collider->SetSimulatePhysics(false);
 
 		this->AttachRootComponentTo(Cast<APlayerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
 		
@@ -57,9 +57,9 @@ void ALiftableBox::Interact(AActor* Interactor)
 
 void ALiftableBox::Drop(AActor* Player)
 {
-	Collider->SetSimulatePhysics(true);
-
 	VisibleBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+
+	Collider->SetSimulatePhysics(true);
 
 	//THIS HAS TO BE THE PROBLEM
 	RootComponent->DetachFromParent();
