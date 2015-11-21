@@ -12,7 +12,7 @@ AMop::AMop()
 	MopHitbox->AttachTo(RootComponent);
 	MopHitbox->SetRelativeLocation(FVector(100, 0, -100));
 
-	OnActorBeginOverlap.AddDynamic(this, &AMop::OnActorBeginOverlap);
+	OnActorBeginOverlap.AddDynamic(this, &AMop::OnActorOverlap);
 }
 void AMop::Tick(float DeltaTime)
 {
@@ -41,12 +41,10 @@ void AMop::Tick(float DeltaTime)
 
 }
 
-void AMop::OnActorBeginOverlap(AActor* OtherActor)
+void AMop::OnActorOverlap(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("CollidingW: %s"), GetName()));
-
 		//Create an array to hold all of the actors overlapping this mop.
 		TArray<AActor*> OverlappingActors;
 

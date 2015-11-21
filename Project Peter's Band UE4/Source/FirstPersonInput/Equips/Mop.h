@@ -26,7 +26,7 @@ protected:
 
 protected:
 	UFUNCTION()
-		virtual void OnActorBeginOverlap(AActor* OtherActor);
+		virtual void OnActorOverlap(AActor* OtherActor);
 
 	UFUNCTION()
 		virtual void OnActorEndOverlap(AActor* OtherActor);
