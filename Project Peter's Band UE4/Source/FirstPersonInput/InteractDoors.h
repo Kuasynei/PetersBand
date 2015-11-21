@@ -24,6 +24,8 @@ public:
 	UFUNCTION()
 	virtual void Interact(AActor* Interactor);
 
+	UAudioComponent* SoundEffect;
+
 private:
 
 	bool bIsOpen;
