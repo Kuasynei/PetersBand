@@ -10,10 +10,16 @@ ALightSwitch::ALightSwitch()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight1"));
-	PointLight->Intensity = 3000.f;
-	PointLight->bVisible = true;
-	RootComponent = PointLight;
+	RootComponent = SpotLight;
+	SpotLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("PointLight1"));
+	SpotLight->Intensity = 3000.f;
+	SpotLight->SetIndirectLightingIntensity(0.0f);
+	SpotLight->bVisible = true;
+
+	LightCollider = CreateDefaultSubobject<USphereComponent>(TEXT("LightCollider"));
+	LightCollider->AttachTo(SpotLight);
+	LightCollider->InitSphereRadius(600.f);
+	LightCollider->RelativeLocation = FVector(600, 0, 0);
 
 }
 
@@ -32,5 +38,5 @@ void ALightSwitch::Tick( float DeltaTime )
 
 void ALightSwitch::Interact(AActor* Interactor)
 {
-	PointLight->ToggleVisibility();
+	SpotLight->ToggleVisibility();
 }

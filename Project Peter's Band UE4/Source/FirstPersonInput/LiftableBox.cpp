@@ -11,12 +11,11 @@ ALiftableBox::ALiftableBox()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
+	RootComponent = Collider;
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 	
 	VisibleBox = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisibleBox"));
 	VisibleBox->AttachTo(Collider);
-	
-	RootComponent = Collider;
 
 }
 
