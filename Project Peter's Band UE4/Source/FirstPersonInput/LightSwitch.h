@@ -24,6 +24,10 @@ public:
 	UFUNCTION()
 	virtual void Interact(AActor* Interactor);
 
-	UPROPERTY(VisibleAnywhere, Category = "Switch Components")
-	class UPointLightComponent* PointLight;
+	UPROPERTY(VisibleAnywhere)
+	USpotLightComponent* SpotLight;
+
+	UPROPERTY(VisibleAnywhere)
+	USphereComponent* LightCollider;
+
 };

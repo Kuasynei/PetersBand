@@ -50,7 +50,7 @@ void AInteractDoors::Interact(AActor* Interactor)
 	SetActorHiddenInGame(!active);
 	SetActorEnableCollision(active);
 	SetActorTickEnabled(active);
-	//FRotator CurrentRotation = GetActorRotation();
+	//FRotator CurrentRotation = GetActorRotaion();
 	//CurrentRotation.Yaw += 90;
 	//SetActorRotation(CurrentRotation);
 }
