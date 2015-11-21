@@ -27,6 +27,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		USkeletalMeshComponent* MopMesh;
 
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* TempMopMesh;
+
 
 protected:
 	UFUNCTION()

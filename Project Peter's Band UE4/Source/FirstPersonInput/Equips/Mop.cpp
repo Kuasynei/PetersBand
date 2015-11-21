@@ -11,6 +11,9 @@ AMop::AMop()
 	MopHitbox = CreateDefaultSubobject<USphereComponent>(TEXT("MopHitbox"));
 	MopHitbox->AttachTo(RootComponent);
 	MopHitbox->SetRelativeLocation(FVector(100, 0, -100));
+
+	TempMopMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TEMPMopModel"));
+	TempMopMesh->AttachTo(RootComponent);
 }
 void AMop::Tick(float DeltaTime)
 {
