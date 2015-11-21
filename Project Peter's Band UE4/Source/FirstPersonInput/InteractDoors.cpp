@@ -15,6 +15,10 @@ AInteractDoors::AInteractDoors()
 
 	Collider->SetBoxExtent(FVector(50, 50, 10));
 
+	SoundEffect = CreateDefaultSubobject<UAudioComponent>(TEXT("DoorOpeningSound"));
+	static ConstructorHelpers::FObjectFinder<USoundCue> Sound(TEXT("SoundCue'/Game/Sounds/RAW_Door_Opening_2_Cue.RAW_Door_Opening_2_Cue'"));
+	if (Sound.Object != NULL)
+		SoundEffect->SetSound(Sound.Object);
 }
 
 // Called when the game starts or when spawned
@@ -40,6 +44,8 @@ void AInteractDoors::Interact(AActor* Interactor)
 	else
 		active = true;
 
+	SoundEffect->SetWorldLocation(GetActorLocation());
+	SoundEffect->Play();
 
 	SetActorHiddenInGame(!active);
 	SetActorEnableCollision(active);
