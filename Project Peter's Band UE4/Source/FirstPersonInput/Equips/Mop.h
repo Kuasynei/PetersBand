@@ -16,11 +16,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 protected:
-	//Root Component
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		UBoxComponent* RootCollider;
-
-	//The end of the mop
+	//The mop's hitbox
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		USphereComponent* MopHitbox;
 
@@ -30,5 +26,8 @@ protected:
 
 protected:
 	UFUNCTION()
-		virtual void OnActorOverlap(AActor* OtherActor);
+		virtual void OnActorBeginOverlap(AActor* OtherActor);
+
+	UFUNCTION()
+		virtual void OnActorEndOverlap(AActor* OtherActor);
 };

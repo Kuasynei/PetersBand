@@ -34,11 +34,13 @@ void ATurtle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, FString::Printf(TEXT("Bool: %s"), Collider->IsSimulatingPhysics() ? TEXT("true") : TEXT("false")));
+
 }
 
 void ATurtle::EnemyInteract(AActor* Interactor)
 {
-	//DO INTERACTIONS HERE
+	Collider->SetSimulatePhysics(!Collider->IsSimulatingPhysics());
 }
 
 
