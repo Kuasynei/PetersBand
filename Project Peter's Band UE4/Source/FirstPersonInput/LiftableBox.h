@@ -33,7 +33,7 @@ private:
 protected:
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent *VisibleBox;
+	UStaticMeshComponent* VisibleBox;
 
 private:
 
