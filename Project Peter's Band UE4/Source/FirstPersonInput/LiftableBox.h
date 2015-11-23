@@ -33,7 +33,10 @@ private:
 protected:
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent *VisibleBox;
+	UStaticMeshComponent* VisibleBox;
+
+	UPROPERTY(EditAnywhere)
+	UBoxComponent* ExtraCollider;
 
 private:
 

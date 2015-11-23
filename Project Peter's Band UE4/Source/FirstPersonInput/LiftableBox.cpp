@@ -17,6 +17,8 @@ ALiftableBox::ALiftableBox()
 	VisibleBox = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisibleBox"));
 	VisibleBox->AttachTo(Collider);
 
+	ExtraCollider = CreateDefaultSubobject<UBoxComponent >(TEXT("ExtraCollider"));
+	ExtraCollider->AttachTo(Collider);
 }
 
 // Called when the game starts or when spawned
