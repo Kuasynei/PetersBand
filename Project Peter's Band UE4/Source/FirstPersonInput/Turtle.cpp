@@ -41,4 +41,9 @@ void ATurtle::EnemyInteract(AActor* Interactor)
 	//DO INTERACTIONS HERE
 }
 
+void ATurtle::EnemyActivate(AActor* Interactor)
+{
+	//TURN ON AND OFF TURTLE VIA LIGHT HERE
+}
+
 

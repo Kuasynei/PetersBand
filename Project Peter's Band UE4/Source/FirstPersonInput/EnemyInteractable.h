@@ -23,6 +23,9 @@ public:
 	UFUNCTION()
 	virtual void EnemyInteract(AActor* Interactor) PURE_VIRTUAL(AEnemyInteractable::EnemyInteract, );
 
+	UFUNCTION()
+	virtual void EnemyActivate(AActor* Interactor) PURE_VIRTUAL(AEnemyInteractable::EnemyActivate, );
+
 protected:
 
 	UPROPERTY(EditAnywhere)
