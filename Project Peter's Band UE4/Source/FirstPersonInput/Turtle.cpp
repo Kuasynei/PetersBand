@@ -10,6 +10,7 @@ ATurtle::ATurtle()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 	RootComponent = Collider;
 
@@ -34,11 +35,20 @@ void ATurtle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Black, FString::Printf(TEXT("Turtle Physics: %s"), Collider->IsSimulatingPhysics() ? TEXT("true") : TEXT("false")));
 }
 
 void ATurtle::EnemyInteract(AActor* Interactor)
 {
 	//DO INTERACTIONS HERE
+	if (Collider->IsSimulatingPhysics())
+	{
+		Collider->SetSimulatePhysics(false);
+	}
+	else if (!Collider->IsSimulatingPhysics())
+	{
+		Collider->SetSimulatePhysics(true);
+	}
 }
 
 void ATurtle::EnemyActivate(AActor* Interactor)

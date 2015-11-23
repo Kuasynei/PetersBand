@@ -18,7 +18,7 @@ public:
 protected:
 	//Root Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		UBoxComponent* RootCollider;
+		USceneComponent* RootCollider;
 
 	//The end of the mop
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -30,8 +30,10 @@ protected:
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* TempMopMesh;
 
-
 protected:
 	UFUNCTION()
-		virtual void OnActorOverlap(AActor* OtherActor);
+		virtual void OnActorOverlapBegin(AActor* OtherActor);
+
+	UFUNCTION()
+		virtual void OnActorOverlapEnd(AActor* OtherActor);
 };
