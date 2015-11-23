@@ -35,9 +35,6 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* VisibleBox;
 
-	UPROPERTY(EditAnywhere)
-	UBoxComponent* ExtraCollider;
-
 private:
 
 	bool bIsAbove(AActor* Player);
