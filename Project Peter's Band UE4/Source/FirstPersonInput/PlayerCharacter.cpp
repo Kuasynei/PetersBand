@@ -52,6 +52,24 @@ void APlayerCharacter::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+	if (isWalkingForward || isWalkingRight)
+	{
+		if (CanJump())
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), WalkSound, GetActorLocation());
+	}
+	if (isJumpingGruntCheck)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), GruntSound, GetActorLocation());
+		isJumpingGruntCheck = false;
+	}
+
+	if (GetVelocity().Z == 0 && isJumpingGroundCheck)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), JumpSound, GetActorLocation());
+		isJumpingGroundCheck = false;
+	}
+	
+
 }
 
 
@@ -68,6 +86,7 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAction("EquipSlot1", IE_Pressed, this, &APlayerCharacter::EquipSlot1);
 	InputComponent->BindAction("EquipSlot2", IE_Pressed, this, &APlayerCharacter::EquipSlot2);
 
+	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerCharacter::StartJump);
 	InputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 
@@ -79,28 +98,43 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	InputComponent->BindAxis("LookUpRate", this, &APlayerCharacter::LookUpAtRate);
 }
+void APlayerCharacter::StartJump()
+{
+	if (GetVelocity().Z == 0)
+	{
+		isJumpingGruntCheck = true;
+		isJumpingGroundCheck = true;
+		Jump();
+	}
+}
 
 
 //MOVEMENT CODE//
 void APlayerCharacter::MoveForward(float Value)
 {
 	
-		if (Value != 0.0f)
-		{
-			// add movement in that direction
-			AddMovementInput(GetActorForwardVector(), Value);
-		}
+	if (Value != 0.0f)
+	{
+		// add movement in that direction
+		AddMovementInput(GetActorForwardVector(), Value);
+		isWalkingForward = true;
+	}
+	else
+		isWalkingForward = false;
 	
 }
 
 void APlayerCharacter::MoveRight(float Value)
 {
 	
-		if (Value != 0.0f)
-		{
-			// add movement in that direction
-			AddMovementInput(GetActorRightVector(), Value);
-		}
+	if (Value != 0.0f)
+	{
+		// add movement in that direction
+		AddMovementInput(GetActorRightVector(), Value);
+		isWalkingRight = true;
+	}
+	else
+		isWalkingRight = false;
 	
 }
 

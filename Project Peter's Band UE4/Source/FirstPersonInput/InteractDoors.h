@@ -24,7 +24,8 @@ public:
 	UFUNCTION()
 	virtual void Interact(AActor* Interactor);
 
-	UAudioComponent* SoundEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	USoundCue* SoundEffect;
 
 private:
 
