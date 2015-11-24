@@ -20,6 +20,7 @@ class FIRSTPERSONINPUT_API APlayerCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FirstPersonCameraComponent;
 
+
 public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
@@ -45,8 +46,14 @@ public:
 
 	//A function that will equip an object of type ABaseEquips.
 	void Equip(TSubclassOf<ABaseEquips> EquipType);
-	
+	void Unequip();
+
+	//Depending on the key pressed, will change the player's equip.
+	void EquipSlot1();
+	void EquipSlot2();
+
 	void SetObjectLifted(ALiftableBox* Box);
+
 
 protected:
 
@@ -68,14 +75,13 @@ protected:
 	*/
 	void LookUpAtRate(float Rate);
 
-
-
 public:
 	/** Returns Mesh1P subobject **/
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 	
+
 protected:
 
 	UFUNCTION()
@@ -84,17 +90,26 @@ protected:
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
 
-	//A default equip established in the editor
+	//A list of the equips the player has available to them.
 	//and an equipped variable to hold the currently equipped tool.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TSubclassOf<ABaseEquips> DefaultEquipClass;
-		ABaseEquips* Equipped;
+		TArray< TSubclassOf<ABaseEquips> > Equips;
+
+	//A value that determines which equips the player has access to.
+	//If 0, the player cannot equip anything, if 1, the player can
+	//access the first element in the Equips array.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 UnlockedEquips;
+
+	uint8 EquippedIndex;
+	ABaseEquips* Equipped;
 
 	UFUNCTION()
 	virtual void OnActorOverlap(AActor* OtherActor);
 
 	UFUNCTION()
 	virtual void OnActorOverlapEnd(AActor* OtherActor);
+
 
 private:
 

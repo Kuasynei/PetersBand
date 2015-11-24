@@ -21,8 +21,8 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 protected:
-	//A pointer to this class, not to an instanced object.
+	//An array pointer to this class, not to an instanced object.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TSubclassOf<ABaseEquips> DefaultEquipClass;
+		TArray< TSubclassOf<ABaseEquips> > Equips;
 
 };
