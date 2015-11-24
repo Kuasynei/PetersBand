@@ -18,7 +18,10 @@ AInteractDoors::AInteractDoors()
 	SoundEffect = CreateDefaultSubobject<UAudioComponent>(TEXT("DoorOpeningSound"));
 	static ConstructorHelpers::FObjectFinder<USoundCue> Sound(TEXT("SoundCue'/Game/Sounds/RAW_Door_Opening_2_Cue.RAW_Door_Opening_2_Cue'"));
 	if (Sound.Object != NULL)
+	{
 		SoundEffect->SetSound(Sound.Object);
+		SoundEffect->bAutoActivate = false;
+	}
 }
 
 // Called when the game starts or when spawned
