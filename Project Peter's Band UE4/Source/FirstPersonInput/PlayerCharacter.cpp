@@ -36,21 +36,16 @@ APlayerCharacter::APlayerCharacter()
 	OnActorEndOverlap.AddDynamic(this, &APlayerCharacter::OnActorOverlapEnd);
 }
 
+
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-
-	if (DefaultEquipClass)
-	{
-		Equip(DefaultEquipClass);
-	}
 	
-
 	bCurrentlyLiftingBox = false;
 
 }
+
 
 // Called every frame
 void APlayerCharacter::Tick( float DeltaTime )
@@ -77,15 +72,21 @@ void APlayerCharacter::Tick( float DeltaTime )
 
 }
 
+
 // Called to bind functionality to input
 void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
 
 	InputComponent->BindAction("UseButton", IE_Pressed, this, &APlayerCharacter::ActivateButton);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	//Depending on the key pressed, will change the player's equip.
+	InputComponent->BindAction("EquipSlot1", IE_Pressed, this, &APlayerCharacter::EquipSlot1);
+	InputComponent->BindAction("EquipSlot2", IE_Pressed, this, &APlayerCharacter::EquipSlot2);
+
 	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerCharacter::StartJump);
-
-
 	InputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 
@@ -97,7 +98,6 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	InputComponent->BindAxis("LookUpRate", this, &APlayerCharacter::LookUpAtRate);
 }
-
 void APlayerCharacter::StartJump()
 {
 	if (GetVelocity().Z == 0)
@@ -108,8 +108,8 @@ void APlayerCharacter::StartJump()
 	}
 }
 
-//MOVEMENT CODE//
 
+//MOVEMENT CODE//
 void APlayerCharacter::MoveForward(float Value)
 {
 	
@@ -152,12 +152,10 @@ void APlayerCharacter::LookUpAtRate(float Rate)
 		AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds()); //pitch vertical rotation
 	
 }
-
 //MOVEMENT CODE END//
 
 
 //USE BUTTON CODE//
-
 void APlayerCharacter::ActivateButton()
 {
 	if (bCurrentlyLiftingBox)
@@ -198,7 +196,6 @@ void APlayerCharacter::ActivateButton()
 
 	}
 }
-
 //USE BUTTON CODE END//
 
 
@@ -207,11 +204,27 @@ USceneComponent* APlayerCharacter::GetHand()
 	return Hand;
 }
 
+
+void APlayerCharacter::EquipSlot1() //Nothing Equipped
+{
+	EquippedIndex = 1;
+	Unequip();
+}
+void APlayerCharacter::EquipSlot2() //First Equip
+{
+	if (UnlockedEquips >= 1)
+	{
+		EquippedIndex = 2;
+		Equip(Equips[0]);
+	}
+}
+
+
 void APlayerCharacter::Equip(TSubclassOf<ABaseEquips> EquipType)
 {
-	if (Equipped != NULL && Equipped->IsA(EquipType))
+	if (Equipped != NULL)
 	{
-		return;
+		Unequip();
 	}
 
 	FActorSpawnParameters SpawnParameters;
@@ -219,7 +232,15 @@ void APlayerCharacter::Equip(TSubclassOf<ABaseEquips> EquipType)
 
 	Equipped = GetWorld()->SpawnActor<ABaseEquips>(EquipType, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
 	Equipped->AttachRootComponentTo(RootComponent);
-	//Equipped->AttachRootComponentTo(GetMesh(), TEXT("RightHand"));
+}
+
+void APlayerCharacter::Unequip()
+{
+	if (Equipped != NULL)
+	{
+		Equipped->Destroy();
+		Equipped = NULL;
+	}
 }
 
 void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
@@ -228,12 +249,14 @@ void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
 	bCurrentlyLiftingBox = true;
 }
 
+
 void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
 	}
 }
+
 
 void APlayerCharacter::OnActorOverlapEnd(AActor* OtherActor)
 {
