@@ -14,6 +14,7 @@ AMop::AMop()
 
 	TempMopMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TEMPMopModel"));
 	TempMopMesh->AttachTo(RootComponent);
+	TempMopMesh->SetRelativeLocation(FVector(100, 0, 0));
 
 	OnActorBeginOverlap.AddDynamic(this, &AMop::OnActorOverlapBegin);
 	OnActorEndOverlap.AddDynamic(this, &AMop::OnActorOverlapEnd);
@@ -22,9 +23,10 @@ void AMop::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
 	//Drawing the mop hitbox
 	DrawDebugSphere(GetWorld(), MopHitbox->GetComponentLocation(), MopHitbox->GetScaledSphereRadius(), 32, FColor::Blue, true, DeltaTime*2);
-
+	/*
 	//Drawing a stick for the mop.
 	FVector StickTop = FVector(10, 20, 70);
 	StickTop = RootComponent->GetComponentRotation().RotateVector(StickTop);
@@ -39,6 +41,7 @@ void AMop::Tick(float DeltaTime)
 	FColor StickColor = FColor::Red;
 
 	DrawDebugCylinder(GetWorld(), StickTop, StickBottom, StickRadius, CylinderSegments, StickColor, true, DeltaTime*2);
+	*/
 
 	//GEngine->AddOnScreenDebugMessage(4, 2.f, FColor::Red, (TEXT("ForwardVector: " + RootComponent->GetForwardVector().ToString())));
 	//GEngine->AddOnScreenDebugMessage(5, 2.f, FColor::Magenta, (TEXT("Rot: " + RootComponent->GetComponentRotation().ToString() )));
@@ -66,6 +69,6 @@ void AMop::OnActorOverlapEnd(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner() && OtherActor->IsA(AEnemyInteractable::StaticClass()))
 	{
-		//Cast<AEnemyInteractable>(OtherActor)->EnemyInteract(this);
+		Cast<AEnemyInteractable>(OtherActor)->EnemyInteract(this);
 	}
 }
