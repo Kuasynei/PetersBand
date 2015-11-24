@@ -66,6 +66,6 @@ void AMop::OnActorOverlapEnd(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		Cast<AEnemyInteractable>(OtherActor)->EnemyInteract(this);
+	//	Cast<AEnemyInteractable>(OtherActor)->EnemyInteract(this);
 	}
 }

@@ -57,6 +57,24 @@ void APlayerCharacter::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+	if (isWalkingForward || isWalkingRight)
+	{
+		if (CanJump())
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), WalkSound, GetActorLocation());
+	}
+	if (isJumpingGruntCheck)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), GruntSound, GetActorLocation());
+		isJumpingGruntCheck = false;
+	}
+
+	if (GetVelocity().Z == 0 && isJumpingGroundCheck)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), JumpSound, GetActorLocation());
+		isJumpingGroundCheck = false;
+	}
+	
+
 }
 
 // Called to bind functionality to input
@@ -65,9 +83,7 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	Super::SetupPlayerInputComponent(InputComponent);
 
 	InputComponent->BindAction("UseButton", IE_Pressed, this, &APlayerCharacter::ActivateButton);
-	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
+	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerCharacter::StartJump);
 
 
 	InputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
@@ -82,27 +98,43 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAxis("LookUpRate", this, &APlayerCharacter::LookUpAtRate);
 }
 
+void APlayerCharacter::StartJump()
+{
+	if (GetVelocity().Z == 0)
+	{
+		isJumpingGruntCheck = true;
+		isJumpingGroundCheck = true;
+		Jump();
+	}
+}
+
 //MOVEMENT CODE//
 
 void APlayerCharacter::MoveForward(float Value)
 {
 	
-		if (Value != 0.0f)
-		{
-			// add movement in that direction
-			AddMovementInput(GetActorForwardVector(), Value);
-		}
+	if (Value != 0.0f)
+	{
+		// add movement in that direction
+		AddMovementInput(GetActorForwardVector(), Value);
+		isWalkingForward = true;
+	}
+	else
+		isWalkingForward = false;
 	
 }
 
 void APlayerCharacter::MoveRight(float Value)
 {
 	
-		if (Value != 0.0f)
-		{
-			// add movement in that direction
-			AddMovementInput(GetActorRightVector(), Value);
-		}
+	if (Value != 0.0f)
+	{
+		// add movement in that direction
+		AddMovementInput(GetActorRightVector(), Value);
+		isWalkingRight = true;
+	}
+	else
+		isWalkingRight = false;
 	
 }
 
