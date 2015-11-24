@@ -1,0 +1,44 @@
+Closet
+	Janitors Closet Level
+
+Theatre
+	Large Theatre
+
+Choice/Memory Segment
+	Green Room
+	Memory Segment Room
+	
+2 Levels Anchovies
+	AnchovieIntro
+	WeightSwitches + Anchovies
+	
+Mess of Hallways
+
+2 Levels Turtles
+	Simple Level (Intro to Turtles)
+	Undetermined Turtle level
+
+Choice/Memory Segment
+	Undetermined Room
+	Memory Segment Room
+	
+TURTLE BOSS(Not Created)
+
+Lobby
+
+1 Level Mop
+	Mop Obtain Level(Not Created)
+	
+1 Level Flickering Lights
+	(Not Created Level)
+	
+Blockade
+	Find locked door level
+
+Choice
+	Room Needed
+	
+Final Level/Boss Anchovie
+	Complex Level
+	
+Memory Segment(Based off previous choice)

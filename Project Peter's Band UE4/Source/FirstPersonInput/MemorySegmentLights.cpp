@@ -17,7 +17,7 @@ AMemorySegmentLights::AMemorySegmentLights()
 	SpotLight->SetIndirectLightingIntensity(0.0f);
 
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
-	Collider->AttachTo(RootComponent);
+	Collider->AttachTo(SpotLight);
 
 	OnActorEndOverlap.AddDynamic(this, &AMemorySegmentLights::OnActorOverlapEnd);
 
@@ -49,7 +49,7 @@ void AMemorySegmentLights::OnActorOverlapEnd(AActor* OtherActor)
 			// try and fire a projectile
 			if (MemorySegmentLight != NULL)
 			{
-				const FVector SpawnLocation = GetActorLocation() + FVector(20, 0, 0);
+				const FVector SpawnLocation = OtherActor->GetActorForwardVector() * 2000.f + FVector(0, 0, 740);
 
 				UWorld* const World = GetWorld();
 				if (World != NULL)
