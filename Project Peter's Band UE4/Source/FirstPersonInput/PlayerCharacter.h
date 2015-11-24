@@ -48,7 +48,26 @@ public:
 	
 	void SetObjectLifted(ALiftableBox* Box);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundCue* GruntSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundCue* JumpSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundCue* WalkSound;
+
 protected:
+
+	bool isWalkingForward;
+
+	bool isWalkingRight;
+
+	bool isJumpingGruntCheck;
+
+	bool isJumpingGroundCheck;
+
+	void StartJump();
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);
