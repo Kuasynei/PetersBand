@@ -34,10 +34,14 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Gameplay)
 	USoundCue* StartSound;
 
+	FTimerHandle VoiceOverTimerHandle;
+
 protected:
 
 	UFUNCTION()
 	virtual void OnActorOverlapEnd(AActor* OtherActor);
+
+	void CountDownTimer();
 
 public:
 

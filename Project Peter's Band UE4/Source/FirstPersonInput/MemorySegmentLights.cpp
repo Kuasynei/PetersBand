@@ -28,8 +28,19 @@ void AMemorySegmentLights::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Uncomment when a voice file is added to the light otherwise breaks ahoy.
+	//VoiceOverTimer = VoiceOver->GetDuration();
+
+	//Temp setting for testing
+	VoiceOverTimer = 5;
+
+	
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), StartSound, GetActorLocation());
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), VoiceOver, GetActorLocation());
+
+	//Function that handles ticking down as the voice over is playing. This makes the voice over "Unskippable"
+	//Takes in the Time handler, the object, a function that in this case lowers the Voice over timer value, counts down by one second and tells it to keep repeating until 0
+	GetWorldTimerManager().SetTimer(VoiceOverTimerHandle, this, &AMemorySegmentLights::CountDownTimer, 1.0f, true);
 
 }
 
@@ -37,6 +48,8 @@ void AMemorySegmentLights::BeginPlay()
 void AMemorySegmentLights::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+
+	GEngine->AddOnScreenDebugMessage(5, 1.f, FColor::Blue, FString::Printf(TEXT("Time Left on Voice Over %i"), VoiceOverTimer));
 
 }
 
@@ -67,4 +80,13 @@ void AMemorySegmentLights::OnActorOverlapEnd(AActor* OtherActor)
 	}
 }
 
+void AMemorySegmentLights::CountDownTimer()
+{
+	--VoiceOverTimer;
+
+	if (VoiceOverTimer <= 0)
+	{
+		GetWorldTimerManager().ClearTimer(VoiceOverTimerHandle);
+	}
+}
 
