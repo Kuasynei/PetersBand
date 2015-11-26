@@ -49,7 +49,10 @@ void AMemorySegmentLights::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-	GEngine->AddOnScreenDebugMessage(5, 1.f, FColor::Blue, FString::Printf(TEXT("Time Left on Voice Over %i"), VoiceOverTimer));
+	if (VoiceOverTimer <= 0)
+	{
+		//
+	}
 
 }
 
@@ -57,23 +60,6 @@ void AMemorySegmentLights::OnActorOverlapEnd(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		if (VoiceOverTimer <= 0)
-		{
-			// try and fire a projectile
-			if (MemorySegmentLight != NULL)
-			{
-				const FVector SpawnLocation = OtherActor->GetActorForwardVector() * 2000.f + FVector(0, 0, 740);
-
-				UWorld* const World = GetWorld();
-				if (World != NULL)
-				{
-					// spawn the projectile at the muzzle
-					World->SpawnActor<AMemorySegmentLights>(MemorySegmentLight, SpawnLocation, GetActorRotation());
-				}
-			}
-			//Destroy the light and sounds at the end of the voice over
-			Destroy();
-		}
 		count++;
 		GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Red, FString::Printf(TEXT(" %i"), count));
 
@@ -86,6 +72,21 @@ void AMemorySegmentLights::CountDownTimer()
 
 	if (VoiceOverTimer <= 0)
 	{
+		// try and fire a projectile
+		if (MemorySegmentLight != NULL)
+		{
+			UWorld* const World = GetWorld();
+			FVector SpawnLocation = World->GetFirstPlayerController()->GetActorForwardVector() * 2000.f + FVector(0, 0, 740);
+
+			if (World != NULL)
+			{
+				// spawn the projectile at the muzzle
+				World->SpawnActor<AMemorySegmentLights>(MemorySegmentLight, SpawnLocation, GetActorRotation()); 
+			}
+		}
+		//Destroy the light and sounds at the end of the voice over
+		Destroy();
+
 		GetWorldTimerManager().ClearTimer(VoiceOverTimerHandle);
 	}
 }
