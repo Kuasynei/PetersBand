@@ -13,7 +13,7 @@ AMemorySegmentLights::AMemorySegmentLights()
 	RootComponent = SpotLight;
 
 	SpotLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("SpotLight"));
-	SpotLight->Intensity = 3000.f;
+	SpotLight->Intensity = 5000.f;
 	SpotLight->SetIndirectLightingIntensity(0.0f);
 
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
@@ -33,6 +33,8 @@ void AMemorySegmentLights::BeginPlay()
 
 	//Temp setting for testing
 	VoiceOverTimer = 5;
+
+	SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, 740));
 
 	
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), StartSound, GetActorLocation());
@@ -60,8 +62,6 @@ void AMemorySegmentLights::OnActorOverlapEnd(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		count++;
-		GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Red, FString::Printf(TEXT(" %i"), count));
 
 	}
 }

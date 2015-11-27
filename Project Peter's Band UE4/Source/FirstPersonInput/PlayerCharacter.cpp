@@ -68,8 +68,6 @@ void APlayerCharacter::Tick( float DeltaTime )
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), JumpSound, GetActorLocation());
 		isJumpingGroundCheck = false;
 	}
-	
-
 }
 
 
