@@ -32,8 +32,8 @@ float AAudioController::GetCurrentSoundLength()
 {
 	if (NumberOfLightsPassed < ArraySize)
 	{
-		if (AudioFiles[NumberOfLightsPassed] != NULL)
-			return AudioFiles[NumberOfLightsPassed]->GetDuration();
+		if (AudioFiles[NumberOfLightsPassed - 1] != NULL)
+			return AudioFiles[NumberOfLightsPassed - 1]->GetDuration();
 		else
 			return 2.f;
 	}
@@ -54,9 +54,9 @@ USoundCue* AAudioController::GetSoundToPlay()
 	{
 		if (NumberOfLightsPassed > 0)
 		{
-			if (AudioFiles[NumberOfLightsPassed] != NULL)
+			if (AudioFiles[NumberOfLightsPassed - 1] != NULL)
 			{
-				return AudioFiles[NumberOfLightsPassed];
+				return AudioFiles[NumberOfLightsPassed - 1];
 			}
 			else
 				return NULL;
