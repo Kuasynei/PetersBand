@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "AudioController.h"
 #include "MemorySegmentLights.generated.h"
 
 UCLASS()
@@ -29,29 +30,28 @@ protected:
 	UBoxComponent* Collider;
 
 	UPROPERTY(EditAnywhere, Category = Gameplay)
-	USoundCue* VoiceOver;
-
-	UPROPERTY(EditAnywhere, Category = Gameplay)
 	USoundCue* StartSound;
 
 	FTimerHandle VoiceOverTimerHandle;
 
 protected:
 
-	UFUNCTION()
-	virtual void OnActorOverlapEnd(AActor* OtherActor);
-
 	void CountDownTimer();
 
+	void AudioFinished();
+
+	void StartTimer();
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 VoiceOverTimer;
 
-	int32 count;
-
 	UPROPERTY(EditAnywhere, Category = MemoryLights)
 	TSubclassOf<class AMemorySegmentLights> MemorySegmentLight;
+
+	UPROPERTY(EditAnywhere)
+	AAudioController* AudioController;
+
 
 
 };

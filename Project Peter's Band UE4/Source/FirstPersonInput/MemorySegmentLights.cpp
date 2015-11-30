@@ -12,14 +12,14 @@ AMemorySegmentLights::AMemorySegmentLights()
 
 	RootComponent = SpotLight;
 
+	//Creates a spotlight for us to place the model within
 	SpotLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("SpotLight"));
 	SpotLight->Intensity = 5000.f;
 	SpotLight->SetIndirectLightingIntensity(0.0f);
 
+	//Creates a collision box that will be used when skippng is implemented
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 	Collider->AttachTo(SpotLight);
-
-	OnActorEndOverlap.AddDynamic(this, &AMemorySegmentLights::OnActorOverlapEnd);
 
 }
 
@@ -28,21 +28,7 @@ void AMemorySegmentLights::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//Uncomment when a voice file is added to the light otherwise breaks ahoy.
-	//VoiceOverTimer = VoiceOver->GetDuration();
-
-	//Temp setting for testing
-	VoiceOverTimer = 5;
-
-	SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, 740));
-
-	
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), StartSound, GetActorLocation());
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), VoiceOver, GetActorLocation());
-
-	//Function that handles ticking down as the voice over is playing. This makes the voice over "Unskippable"
-	//Takes in the Time handler, the object, a function that in this case lowers the Voice over timer value, counts down by one second and tells it to keep repeating until 0
-	GetWorldTimerManager().SetTimer(VoiceOverTimerHandle, this, &AMemorySegmentLights::CountDownTimer, 1.0f, true);
+	StartTimer();
 
 }
 
@@ -51,19 +37,6 @@ void AMemorySegmentLights::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-	if (VoiceOverTimer <= 0)
-	{
-		//
-	}
-
-}
-
-void AMemorySegmentLights::OnActorOverlapEnd(AActor* OtherActor)
-{
-	if (OtherActor != GetOwner())
-	{
-
-	}
 }
 
 void AMemorySegmentLights::CountDownTimer()
@@ -72,22 +45,44 @@ void AMemorySegmentLights::CountDownTimer()
 
 	if (VoiceOverTimer <= 0)
 	{
-		// try and fire a projectile
-		if (MemorySegmentLight != NULL)
-		{
-			UWorld* const World = GetWorld();
-			FVector SpawnLocation = World->GetFirstPlayerController()->GetActorForwardVector() * 2000.f + FVector(0, 0, 740);
-
-			if (World != NULL)
-			{
-				// spawn the projectile at the muzzle
-				World->SpawnActor<AMemorySegmentLights>(MemorySegmentLight, SpawnLocation, GetActorRotation()); 
-			}
-		}
-		//Destroy the light and sounds at the end of the voice over
-		Destroy();
-
 		GetWorldTimerManager().ClearTimer(VoiceOverTimerHandle);
+		AudioFinished();
 	}
+}
+
+void AMemorySegmentLights::AudioFinished()
+{
+	if (MemorySegmentLight != NULL)
+	{
+		UWorld* const World = GetWorld();
+		FVector moveLocation = World->GetFirstPlayerController()->GetActorForwardVector() * 2000.f;
+
+		SetActorLocation(FVector(moveLocation.X, moveLocation.Y, 740));
+	}
+
+	AudioController->AddToCount();
+
+	StartTimer();
+}
+
+void AMemorySegmentLights::StartTimer()
+{
+	//Gets the length of the audio cue that is about to start playing and sets the timer to that value. If the count is 0 (Meaning this is the first light) it will only show for 2 seconds.
+	if (AudioController->GetCount() > 0)
+	{
+		VoiceOverTimer = AudioController->GetCurrentSoundLength();
+	}
+	else
+	{
+		VoiceOverTimer = 2.f;
+	}
+
+	//Function that handles ticking down as the voice over is playing. This makes the voice over "Unskippable"
+	//Takes in the Time handler, the object, a function that in this case lowers the Voice over timer value, counts down by one second and tells it to keep repeating until 0
+	GetWorldTimerManager().SetTimer(VoiceOverTimerHandle, this, &AMemorySegmentLights::CountDownTimer, 1.0f, true);
+
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), StartSound, GetActorLocation());
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), AudioController->GetSoundToPlay(), GetActorLocation());
+
 }
 
