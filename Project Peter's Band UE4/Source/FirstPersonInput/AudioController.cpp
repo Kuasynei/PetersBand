@@ -30,7 +30,7 @@ void AAudioController::Tick( float DeltaTime )
 
 float AAudioController::GetCurrentSoundLength()
 {
-	if (NumberOfLightsPassed < ArraySize)
+	if (NumberOfLightsPassed <= ArraySize)
 	{
 		if (AudioFiles[NumberOfLightsPassed - 1] != NULL)
 			return AudioFiles[NumberOfLightsPassed - 1]->GetDuration();
@@ -50,7 +50,7 @@ int32 AAudioController::GetCount()
 
 USoundCue* AAudioController::GetSoundToPlay()
 {
-	if (NumberOfLightsPassed < ArraySize)
+	if (NumberOfLightsPassed <= ArraySize)
 	{
 		if (NumberOfLightsPassed > 0)
 		{
