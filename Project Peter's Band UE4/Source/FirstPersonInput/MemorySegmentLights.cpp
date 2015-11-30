@@ -50,21 +50,6 @@ void AMemorySegmentLights::CountDownTimer()
 	}
 }
 
-void AMemorySegmentLights::AudioFinished()
-{
-	if (MemorySegmentLight != NULL)
-	{
-		UWorld* const World = GetWorld();
-		FVector moveLocation = World->GetFirstPlayerController()->GetActorForwardVector() * 2000.f;
-
-		SetActorLocation(FVector(moveLocation.X, moveLocation.Y, 740));
-	}
-
-	AudioController->AddToCount();
-
-	StartTimer();
-}
-
 void AMemorySegmentLights::StartTimer()
 {
 	//Gets the length of the audio cue that is about to start playing and sets the timer to that value. If the count is 0 (Meaning this is the first light) it will only show for 2 seconds.
@@ -84,5 +69,25 @@ void AMemorySegmentLights::StartTimer()
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), StartSound, GetActorLocation());
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), AudioController->GetSoundToPlay(), GetActorLocation());
 
+}
+
+void AMemorySegmentLights::AudioFinished()
+{
+	if (MemorySegmentLight != NULL)
+	{
+		UWorld* const World = GetWorld();
+		FVector moveLocation = World->GetFirstPlayerController()->GetActorForwardVector() * 2000.f;
+
+		SetActorLocation(FVector(moveLocation.X, moveLocation.Y, 740));
+	}
+
+	if (AudioController->GetCount() > AudioController->GetArraySize())
+	{
+		//Teleport the player out of the memory segment map
+	}
+
+	AudioController->AddToCount();
+
+	StartTimer();
 }
 

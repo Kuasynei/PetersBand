@@ -33,6 +33,7 @@ public:
 	
 	void AddToCount();
 
+	int32 GetArraySize();
 private:
 
 	int32 NumberOfLightsPassed;

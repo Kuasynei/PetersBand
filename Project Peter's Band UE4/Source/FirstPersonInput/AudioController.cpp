@@ -74,3 +74,8 @@ void AAudioController::AddToCount()
 	NumberOfLightsPassed++;
 }
 
+int32 AAudioController::GetArraySize()
+{
+	return ArraySize;
+}
+
