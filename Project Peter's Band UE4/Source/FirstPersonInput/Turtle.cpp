@@ -15,11 +15,11 @@ ATurtle::ATurtle()
 	RootComponent = Collider;
 
 	//Uncomment when the skeletal is given to us instead of the Static Mesh
-	//Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
-	//Mesh->AttachTo(RootComponent);
+	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
+	SkeletalMesh->AttachTo(RootComponent);
 
-	StatMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StatMesh"));
-	StatMesh->AttachTo(RootComponent);
+	//StatMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StatMesh"));
+	//StatMesh->AttachTo(RootComponent);
 
 }
 
