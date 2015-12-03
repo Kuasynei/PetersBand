@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
-#include "EnemyInteractable.h"
+#include "Enemies/EnemyInteractable.h"
 #include "Mop.h"
 
 AMop::AMop()

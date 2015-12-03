@@ -4,7 +4,7 @@
 
 #include "GameFramework/Character.h"
 #include "Equips/BaseEquips.h"
-#include "LiftableBox.h"
+#include "Interactables/LiftableBox.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()

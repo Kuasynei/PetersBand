@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "AudioController.h"
+#include "Audio/AudioController.h"
 #include "MemorySegmentLights.generated.h"
 
 UCLASS()

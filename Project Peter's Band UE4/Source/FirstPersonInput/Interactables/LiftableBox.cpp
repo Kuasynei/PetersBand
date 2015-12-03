@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
-#include "PlayerCharacter.h"
+#include "Player/PlayerCharacter.h"
 #include "LiftableBox.h"
 
 
