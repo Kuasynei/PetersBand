@@ -247,6 +247,16 @@ void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
 	bCurrentlyLiftingBox = true;
 }
 
+void APlayerCharacter::SetLastChoice(bool ChoiceMade)
+{
+	LastChoiceMade = ChoiceMade;
+}
+
+bool APlayerCharacter::GetLastChoice()
+{
+	return LastChoiceMade;
+}
+
 
 void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
 {

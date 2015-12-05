@@ -54,6 +54,10 @@ public:
 
 	void SetObjectLifted(ALiftableBox* Box);
 
+	//Getter and Setter for the choice narrative options in the branching path system
+	bool GetLastChoice();
+	void SetLastChoice(bool ChoiceMade);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundCue* GruntSound;
 
@@ -105,6 +109,8 @@ protected:
 	UFUNCTION()
 	void ActivateButton();
 	
+	//Connection for Box and other liftable objects, curretly where the mop is being attached but
+	//Mop will be moved to the models hand when it comes in.
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
 
@@ -117,11 +123,11 @@ protected:
 	//If 0, the player cannot equip anything, if 1, the player can
 	//access the first element in the Equips array.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 UnlockedEquips;
+	uint8 UnlockedEquips;
 
 	uint8 EquippedIndex;
 	ABaseEquips* Equipped;
-
+	
 	UFUNCTION()
 	virtual void OnActorOverlap(AActor* OtherActor);
 
@@ -135,5 +141,8 @@ private:
 
 	bool bCurrentlyLiftingBox;
 
+	bool LastChoiceMade;
+
+	int32 ChoiceScale;
 
 };
