@@ -29,10 +29,10 @@ protected:
 	UStaticMeshComponent* Mesh;
 
 	UPROPERTY(EditAnywhere)
-		ULevel* MemorySegmentA;
+	ULevel* MemorySegmentA;
 
 	UPROPERTY(EditAnywhere)
-		ULevel* MemorySegmentB;
+	ULevel* MemorySegmentB;
 
 protected:
 
