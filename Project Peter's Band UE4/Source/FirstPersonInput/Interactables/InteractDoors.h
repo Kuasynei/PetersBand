@@ -27,10 +27,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	USoundCue* SoundEffect;
 
+	UPROPERTY(EditAnywhere)
+	UBoxComponent* DoorHinge;
+
 private:
 
 	bool bIsOpen;
-	
-protected:
-	bool active;
 };
