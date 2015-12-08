@@ -39,20 +39,23 @@ void AWeightSwitch::Tick( float DeltaTime )
 
 	GetOverlappingActors(OverlappingActors, AActor::StaticClass());
 
-	if (OverlappingActors.Num() >= 1)
+	if (TargetToAffect)
 	{
-		if (!bIsActivated)
+		if (OverlappingActors.Num() >= 1)
 		{
-			TargetToAffect->Interact(Interactor);
-			bIsActivated = true;
+			if (!bIsActivated)
+			{
+				TargetToAffect->Interact(Interactor);
+				bIsActivated = true;
+			}
 		}
-	}
-	else if (OverlappingActors.Num() == 0)
-	{
-		if (bIsActivated)
+		else if (OverlappingActors.Num() == 0)
 		{
-			TargetToAffect->Interact(Interactor);
-			bIsActivated = false;
+			if (bIsActivated)
+			{
+				TargetToAffect->Interact(Interactor);
+				bIsActivated = false;
+			}
 		}
 	}
 
