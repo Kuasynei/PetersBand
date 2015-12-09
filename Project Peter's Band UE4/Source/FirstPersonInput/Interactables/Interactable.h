@@ -20,9 +20,11 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	//A virtual function that needs to be created for an interactable object to be used.
 	UFUNCTION()
 	virtual void Interact(AActor* Interactor) PURE_VIRTUAL(AInteractable::Interact, );
 
+	//Checks if you can interact with the object
 	bool IsInteractable;
 
 

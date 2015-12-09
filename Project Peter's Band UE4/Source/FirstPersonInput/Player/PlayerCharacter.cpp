@@ -156,6 +156,7 @@ void APlayerCharacter::LookUpAtRate(float Rate)
 //USE BUTTON CODE//
 void APlayerCharacter::ActivateButton()
 {
+	//If the player is lifting a box and the button is pressed then all we should do is drop the box.
 	if (bCurrentlyLiftingBox)
 	{
 		bCurrentlyLiftingBox = false;
@@ -188,6 +189,7 @@ void APlayerCharacter::ActivateButton()
 		}
 	}
 
+	//As long as the closest actor is not null then it runs the interact function on that object
 	if (ClosestObject != nullptr)
 	{
 		ClosestObject->Interact(this);
@@ -199,6 +201,7 @@ void APlayerCharacter::ActivateButton()
 
 USceneComponent* APlayerCharacter::GetHand()
 {
+	//Returns the hand object that the mop and liftable objects attach to
 	return Hand;
 }
 
@@ -241,6 +244,7 @@ void APlayerCharacter::Unequip()
 	}
 }
 
+//Sets the players currently lifted object
 void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
 {
 	PickedUpBox = Box;

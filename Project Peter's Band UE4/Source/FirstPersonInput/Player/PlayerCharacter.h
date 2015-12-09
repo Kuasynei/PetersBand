@@ -52,12 +52,14 @@ public:
 	void EquipSlot1();
 	void EquipSlot2();
 
+	//Gives the player a reference to the lifted object (Used for dropping the box)
 	void SetObjectLifted(ALiftableBox* Box);
 
 	//Getter and Setter for the choice narrative options in the branching path system
 	bool GetLastChoice();
 	void SetLastChoice(bool ChoiceMade);
 
+	//Player specific sounds, set in the editor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundCue* GruntSound;
 
@@ -69,6 +71,7 @@ public:
 
 protected:
 
+	//Checks for what the player character is currently doing for sounds
 	bool isWalkingForward;
 
 	bool isWalkingRight;
@@ -106,6 +109,7 @@ public:
 
 protected:
 
+	//A function that handles the activate button press
 	UFUNCTION()
 	void ActivateButton();
 	
@@ -137,12 +141,15 @@ protected:
 
 private:
 
+	//Reference to the object that was picked up
 	ALiftableBox *PickedUpBox;
 
+	//Tells the player if they are currently lifting a box
 	bool bCurrentlyLiftingBox;
 
 	bool LastChoiceMade;
 
+	//Needs to be moved to a ULocalPlayer class
 	int32 ChoiceScale;
 
 };
