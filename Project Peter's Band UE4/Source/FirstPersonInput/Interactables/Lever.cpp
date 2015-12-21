@@ -32,8 +32,11 @@ void ALever::Tick( float DeltaTime )
 
 void ALever::Interact(AActor* OtherActor)
 {
-	if (TargetToAffect != nullptr)
+	for (int i = 0; i < TargetToAffect.Num(); i++)
 	{
-		TargetToAffect->Interact(OtherActor);
+		if (TargetToAffect[i] != nullptr)
+		{
+			TargetToAffect[i]->Interact(OtherActor);
+		}
 	}
 }
