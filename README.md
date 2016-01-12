@@ -8,7 +8,7 @@ DO NOT make pulls into other branches, NOR UE4Develop, NOR master, without talki
 DO create a "Feature Branch" when you're implementing a new feature. (You worked on swimming, now you're making the jump)
 DO talk to the team before attempting to merge & pull your feature into the UE4 develop branch.
 
-We are using UE4 version 4.9.1.
+We are using UE4 version 4.10
 Make sure to check the naming convention doc on the drive when making commits and new feature branches.
 
 ========================================
@@ -16,7 +16,7 @@ Make sure to check the naming convention doc on the drive when making commits an
 ========================================
 1. Right-Click on "projectnamehere.uproject" (Unreal Engine Project File).
 ---
-2. Make sure the version is 4.9.1 by clicking on "Switch Enreal Engine version..."
+2. Make sure the version is 4.10 by clicking on "Switch Enreal Engine version..."
 ---
 3. When that finishes Right-Click on the .uproject again and select "Generate Visual Studio project files".
 ---
@@ -57,9 +57,18 @@ projectnamehere.uproject
            Troubleshooting
 ========================================
 ****************************************
-Q: When I open "projectnamehere.sln" (Microsoft Visual Studio Solution), the files/folders are weird, and I can't move to the next step.
+Q: When I open "projectnamehere.sln" (Microsoft Visual Studio Solution), the files/folders are weird, 
+   and I can't move to the next step.
 A: If you're not on school computers try this:
 
+---
+1. While you are running the game through Visual Studio check the bottom left of the window, 
+   and make sure you are in the "Solution Explorer" tab.
+---
+2. Click on the "Solution Explorer" tab  if you haven't already. If your folder structure
+   is stlll not fixed proceed onto the next set of steps.
+---
+===
 ---
 1. Close any Visual Studio windows you have open.
 ---
