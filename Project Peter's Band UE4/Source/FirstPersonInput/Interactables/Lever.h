@@ -19,7 +19,7 @@ public:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(EditAnywhere)
-	TArray<AInteractable *> TargetToAffect;
+	AInteractable *TargetToAffect;
 
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
