@@ -48,9 +48,9 @@ void APlayerCharacter::BeginPlay()
 
 
 // Called every frame
-void APlayerCharacter::Tick( float DeltaTime )
+void APlayerCharacter::Tick(float DeltaTime)
 {
-	Super::Tick( DeltaTime );
+	Super::Tick(DeltaTime);
 
 	if (isWalkingForward || isWalkingRight)
 	{
@@ -69,7 +69,6 @@ void APlayerCharacter::Tick( float DeltaTime )
 		isJumpingGroundCheck = false;
 	}
 }
-
 
 // Called to bind functionality to input
 void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
@@ -254,6 +253,7 @@ void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
 void APlayerCharacter::SetLastChoice(bool ChoiceMade)
 {
 	LastChoiceMade = ChoiceMade;
+	GEngine->AddOnScreenDebugMessage(1, 1, FColor::Black, TEXT("DING"));
 }
 
 bool APlayerCharacter::GetLastChoice()
