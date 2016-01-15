@@ -29,16 +29,13 @@ protected:
 	UStaticMeshComponent* Mesh;
 
 	UPROPERTY(EditAnywhere)
-	ULevel* MemorySegmentA;
+	FName MemorySegmentA;
 
 	UPROPERTY(EditAnywhere)
-	ULevel* MemorySegmentB;
+	FName MemorySegmentB;
 
 protected:
 
 	UFUNCTION()
 	virtual void OnActorOverlapBegin(AActor *OtherActor);
-
-	
-	
 };

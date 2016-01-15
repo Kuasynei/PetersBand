@@ -10,16 +10,12 @@ ATurtle::ATurtle()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	
-	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
-	RootComponent = Collider;
-
 	//Uncomment when the skeletal is given to us instead of the Static Mesh
 	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
-	SkeletalMesh->AttachTo(RootComponent);
+	RootComponent = SkeletalMesh;
 
-	//StatMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StatMesh"));
-	//StatMesh->AttachTo(RootComponent);
+	StatMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+	StatMesh->AttachTo(RootComponent);
 
 }
 
@@ -35,7 +31,7 @@ void ATurtle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Black, FString::Printf(TEXT("Turtle Physics: %s"), Collider->IsSimulatingPhysics() ? TEXT("true") : TEXT("false")));
+	//GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Black, FString::Printf(TEXT("Turtle Physics: %s"), Collider->IsSimulatingPhysics() ? TEXT("true") : TEXT("false")));
 }
 
 void ATurtle::EnemyInteract(AActor* Interactor)

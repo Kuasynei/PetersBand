@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
+#include "Player/PlayerCharacter.h"
 #include "ChoiceCheck.h"
 
 
@@ -35,5 +36,15 @@ void AChoiceCheck::Tick( float DeltaTime )
 
 void AChoiceCheck::OnActorOverlap(AActor* OtherActor)
 {
-	
+	if (OtherActor != GetOwner())
+	{
+		if (Cast<APlayerCharacter>(OtherActor)->GetLastChoice() == false)
+		{
+			Cast<APlayerCharacter>(OtherActor)->SetLastChoice(true);
+		}
+		else
+		{
+			Cast<APlayerCharacter>(OtherActor)->SetLastChoice(false);
+		}
+	}
 }
