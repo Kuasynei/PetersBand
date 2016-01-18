@@ -7,6 +7,12 @@ void AUIPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
+	if (GetWorld()->GetMapName().Contains("MainMenu"))
+	{
+		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, GetWorld()->GetMapName());
+	}
+	else
+	{
 		if (APlayerController::WasInputKeyJustPressed(EKeys::P))
 		{
 			if (!paused)
@@ -21,12 +27,10 @@ void AUIPlayerController::Tick(float DeltaSeconds)
 				AUIPlayerController::PauseMenu();
 				SetPause(false);
 				paused = false;
-
 			}
 
 		}
-
-
+	}
 }
 
 void AUIPlayerController::PauseMenu()
