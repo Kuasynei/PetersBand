@@ -26,5 +26,10 @@ public:
 
 	UFUNCTION()
 		virtual void Interact(AActor* Interactor);
+
+	bool bIsActivated;
+
+	UFUNCTION()
+		bool GetIsActivated();
 	
 };

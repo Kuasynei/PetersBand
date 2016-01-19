@@ -34,6 +34,20 @@ void ALever::Interact(AActor* OtherActor)
 {
 	if (TargetToAffect != nullptr)
 	{
+		if (bIsActivated)
+		{
+			bIsActivated = false;
+		}
+		else
+		{
+			bIsActivated = true;
+		}
 		TargetToAffect->Interact(OtherActor);
 	}
 }
+
+bool ALever::GetIsActivated()
+{
+	return bIsActivated;
+}
+
