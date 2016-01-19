@@ -231,7 +231,7 @@ void APlayerCharacter::Equip(TSubclassOf<ABaseEquips> EquipType)
 	SpawnParameters.Owner = this;
 
 	Equipped = GetWorld()->SpawnActor<ABaseEquips>(EquipType, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
-	Equipped->AttachRootComponentTo(RootComponent);
+	Equipped->AttachRootComponentTo(GetMesh(), "BN_RPalm_01");
 }
 
 void APlayerCharacter::Unequip()
