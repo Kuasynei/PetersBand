@@ -3,6 +3,14 @@
 #include "FirstPersonInput.h"
 #include "UIPlayerController.h"
 
+void AUIPlayerController::BeginPlay()
+{
+	if (!GetWorld()->GetMapName().Contains("MainMenu"))
+	{
+		bShowMouseCursor = false;
+	}
+}
+
 void AUIPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -13,7 +21,7 @@ void AUIPlayerController::Tick(float DeltaSeconds)
 	}
 	else
 	{
-		if (APlayerController::WasInputKeyJustPressed(EKeys::P))
+		if (APlayerController::WasInputKeyJustPressed(EKeys::P) || APlayerController::WasInputKeyJustPressed(EKeys::Escape))
 		{
 			if (!paused)
 			{

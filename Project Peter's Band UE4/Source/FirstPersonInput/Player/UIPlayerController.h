@@ -29,6 +29,7 @@ protected:
 	
 	void PauseMenu();
 	virtual void Tick(float DeltaSeconds) override;
+	virtual void BeginPlay() override;
 
 private:
 	bool paused = false;
