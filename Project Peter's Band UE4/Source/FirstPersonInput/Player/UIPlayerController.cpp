@@ -41,6 +41,23 @@ void AUIPlayerController::Tick(float DeltaSeconds)
 	}
 }
 
+void AUIPlayerController::BlueprintPauseMenu()
+{
+	if (!paused)
+	{
+		AUIPlayerController::PauseMenu();
+		SetPause(true);
+		paused = true;
+	}
+
+	else if (paused)
+	{
+		AUIPlayerController::PauseMenu();
+		SetPause(false);
+		paused = false;
+	}
+}
+
 void AUIPlayerController::PauseMenu()
 {
 
