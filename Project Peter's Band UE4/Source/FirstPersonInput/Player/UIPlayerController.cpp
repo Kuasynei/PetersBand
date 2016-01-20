@@ -17,7 +17,7 @@ void AUIPlayerController::Tick(float DeltaSeconds)
 
 	if (GetWorld()->GetMapName().Contains("MainMenu"))
 	{
-		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, GetWorld()->GetMapName());
+		//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, GetWorld()->GetMapName());
 	}
 	else
 	{
