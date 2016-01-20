@@ -20,13 +20,19 @@ AShadowAnnaCharacter::AShadowAnnaCharacter()
 void AShadowAnnaCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	AShadowAnnaController* Controller = Cast<AShadowAnnaController>(this->GetController());
+	if(Controller)
+	{
+		//Controller->GetBlackBoardComponent()->SetValue<UBlackboardKeyType_Object>(SelfActorKeyName, this);
+	}
 }
 
 FVector AShadowAnnaCharacter::SetNextTargetPoint()
 {
 	if (PointsPassed < AiPath.Num())
 	{
-		FVector PointToSend = AiPath[PointsPassed];
+		FVector PointToSend = AiPath[PointsPassed]->GetActorLocation();
 
 		PointsPassed++;
 		

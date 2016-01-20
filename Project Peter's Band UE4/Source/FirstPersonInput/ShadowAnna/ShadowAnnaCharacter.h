@@ -23,7 +23,10 @@ public:
 	UBehaviorTree* BehaviorTree;
 
 	UPROPERTY(EditAnywhere)
-		TArray<FVector> AiPath;
+	TArray<ATargetPoint* > AiPath;
+
+	UPROPERTY(EditDefaultsOnly)
+	FName SelfActorKeyName;
 
 	int PointsPassed;
 
