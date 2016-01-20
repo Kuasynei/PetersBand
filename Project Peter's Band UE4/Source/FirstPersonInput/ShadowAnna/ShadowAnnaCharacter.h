@@ -22,6 +22,14 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	UBehaviorTree* BehaviorTree;
 
+	UPROPERTY(EditAnywhere)
+		TArray<FVector> AiPath;
+
+	int PointsPassed;
+
+public:
+
+	FVector SetNextTargetPoint();
 	
 	
 };

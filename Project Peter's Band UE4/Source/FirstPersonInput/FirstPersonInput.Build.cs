@@ -6,7 +6,7 @@ public class FirstPersonInput : ModuleRules
 {
 	public FirstPersonInput(TargetInfo Target)
 	{
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG", "Slate", "SlateCore" });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG", "Slate", "SlateCore", "AIModule" });
 
 		//PrivateDependencyModuleNames.AddRange(new string[] {  });
 

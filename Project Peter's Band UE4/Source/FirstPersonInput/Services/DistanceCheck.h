@@ -12,6 +12,22 @@ UCLASS()
 class FIRSTPERSONINPUT_API UDistanceCheck : public UBTService_BlackboardBase
 {
 	GENERATED_BODY()
+public:
+
+	UPROPERTY(EditAnywhere)
+		FName KeyName;
+
+	UPROPERTY(EditAnywhere)
+		FName TargetName;
+
+
+protected:
+
+	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
+
+	float Dist;
+
+
 	
 	
 	

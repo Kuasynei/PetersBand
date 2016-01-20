@@ -20,6 +20,21 @@ AShadowAnnaCharacter::AShadowAnnaCharacter()
 void AShadowAnnaCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
+FVector AShadowAnnaCharacter::SetNextTargetPoint()
+{
+	if (PointsPassed < AiPath.Num())
+	{
+		FVector PointToSend = AiPath[PointsPassed];
+
+		PointsPassed++;
+		
+		return PointToSend;
+	}
+	else
+	{
+		return FVector::ZeroVector;
+	}
 }
 
