@@ -13,14 +13,5 @@ class FIRSTPERSONINPUT_API ASpawnerGamemode : public AGameMode
 {
 	GENERATED_BODY()
 		
-	ASpawnerGamemode(const class FObjectInitializer&);
-
-	UPROPERTY(EditDefaultsOnly, Category = AIClass)
-	TSubclassOf<ABaseAI> AIClass;
-		
-
-	virtual void BeginPlay();
-
-protected:
-	void SpawnEntity();
+	ASpawnerGamemode();
 };
