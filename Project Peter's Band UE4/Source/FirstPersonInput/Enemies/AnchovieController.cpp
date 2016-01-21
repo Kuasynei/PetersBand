@@ -2,8 +2,8 @@
 
 #include "FirstPersonInput.h"
 #include "AnchovieController.h"
+#include "BehaviorTree/Blackboard/BlackboardKeyAllTypes.h"
 #include "AnchovieCharacter.h"
-
 
 AAnchovieController::AAnchovieController()
 {
@@ -20,6 +20,7 @@ void AAnchovieController::Possess(APawn* Pawn)
 	{
 		BlackboardComponent->InitializeBlackboard(*Character->BehaviorTree->BlackboardAsset);
 		BehaviorTreeComponent->StartTree(*Character->BehaviorTree);
+
+
 	}
 }
-

@@ -40,14 +40,29 @@ public:
 		USkeletalMeshComponent* skeleMesh6;
 
 	UPROPERTY(EditAnywhere)
-		ALever *LeverToCollideWith;
+		TArray<AActor*> Waypoints;
+
+	UPROPERTY(EditAnywhere)
+		TArray<AActor*> WaypointsBlockedByLight;
+
+	UPROPERTY(EditAnywhere)
+		bool LightOn;
+
+	UPROPERTY(EditAnywhere)
+		float WaypointAt;
+
+/*	UPROPERTY(EditAnywhere)
+		AAnchovieController *SelfController;*/
 
 protected:
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		UCapsuleComponent* CapsuleCollide;
 
 	UFUNCTION()
 		void OnActorOverlaping(AActor* OtherActor);
-		
+
+	UPROPERTY()
+		ALever *LeverToCollideWith;
+
+	/*UFUNCTION()
+		void NextWayPoint(bool GotToPoint);*/
 };

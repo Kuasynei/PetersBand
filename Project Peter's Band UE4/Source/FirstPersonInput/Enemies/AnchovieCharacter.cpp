@@ -16,6 +16,10 @@ AAnchovieCharacter::AAnchovieCharacter()
 
 	AIControllerClass = AAnchovieController::StaticClass();
 
+	WaypointAt = 0;
+	LightOn = false;
+
+
 
 	skeleMesh1 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeleMesh1"));
 	skeleMesh2 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeleMesh2"));
@@ -32,6 +36,7 @@ AAnchovieCharacter::AAnchovieCharacter()
 	skeleMesh6->AttachTo(RootComponent);
 
 	OnActorBeginOverlap.AddDynamic(this, &AAnchovieCharacter::OnActorOverlaping);
+
 }
 
 
@@ -51,3 +56,38 @@ void AAnchovieCharacter::OnActorOverlaping(AActor* OtherActor)
 
 	}
 }
+/*
+void AAnchovieCharacter::NextWayPoint(bool GotToPoint)
+{
+	if (Waypoints.Num() > 1)
+	{
+		if (!LightOn)
+		{
+			if (Waypoints.Last() == Waypoints[WaypointAt])
+			{
+				WaypointAt = 0;
+
+
+			}
+			else
+			{
+				WaypointAt += 1;
+			}
+		}
+		else
+		{
+			if (Waypoints.Last() == Waypoints[WaypointAt])
+			{
+				WaypointAt = 0;
+
+			}
+
+		}
+		if (SelfController != NULL)
+		{
+			SelfController->UpdateWaypoint(Waypoints[WaypointAt]);
+		}
+		
+	}
+
+}*/

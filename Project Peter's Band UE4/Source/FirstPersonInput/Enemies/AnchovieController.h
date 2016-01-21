@@ -5,6 +5,7 @@
 #include "AIController.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
 #include "AnchovieController.generated.h"
 
 /**
@@ -25,5 +26,10 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	UBlackboardComponent* BlackboardComponent;
+
+	/*UFUNCTION()
+		void UpdateWaypoint(AActor* WaypointToUpdate);*/
+
+
 };
 
