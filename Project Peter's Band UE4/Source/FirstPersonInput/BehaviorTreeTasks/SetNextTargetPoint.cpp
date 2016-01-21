@@ -29,9 +29,9 @@ EBTNodeResult::Type USetNextTargetPoint::ExecuteTask(UBehaviorTreeComponent& Own
 	if (ShadowAnna)
 	{
 	//IF the cast works call the function
-		FVector NewTarget = ShadowAnna->SetNextTargetPoint();
+		//FVector NewTarget = ShadowAnna->SetNextTargetPoint();
 
-		Blackboard->SetValue<UBlackboardKeyType_Vector>(BlackboardKey.GetSelectedKeyID(), NewTarget);
+		//Blackboard->SetValue<UBlackboardKeyType_Vector>(BlackboardKey.GetSelectedKeyID(), NewTarget);
 
 		return EBTNodeResult::Succeeded;
 	}

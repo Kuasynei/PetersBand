@@ -22,17 +22,11 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	UBehaviorTree* BehaviorTree;
 
-	UPROPERTY(EditAnywhere)
-	TArray<ATargetPoint* > AiPath;
-
 	UPROPERTY(EditDefaultsOnly)
-	FName SelfActorKeyName;
+	FName DestinationKeyName;
 
-	int PointsPassed;
-
-public:
-
-	FVector SetNextTargetPoint();
+	UPROPERTY(EditAnywhere)
+	ATargetPoint* Destination;
 	
 	
 };
