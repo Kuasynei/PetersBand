@@ -24,3 +24,14 @@ void AAnchovieController::Possess(APawn* Pawn)
 
 	}
 }
+
+UBlackboardComponent* AAnchovieController::GetBlackBoardComponent()
+{
+	return BlackboardComponent;
+}
+
+void AAnchovieController::SegwayTest(AActor* OtherActor)
+{
+	AAnchovieCharacter* Character = Cast<AAnchovieCharacter>(OtherActor);
+	Character->NextWayPoint();
+}

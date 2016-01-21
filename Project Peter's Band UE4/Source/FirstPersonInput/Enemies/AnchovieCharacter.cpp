@@ -4,6 +4,7 @@
 #include "AnchovieCharacter.h"
 #include "AnchovieController.h"
 #include "Interactables/Interactable.h"
+#include "BehaviorTree/Blackboard/BlackboardKeyAllTypes.h"
 #include "Interactables/Lever.h"
 #include "GameFramework/Actor.h"
 
@@ -19,7 +20,7 @@ AAnchovieCharacter::AAnchovieCharacter()
 	WaypointAt = 0;
 	LightOn = false;
 
-
+	WaypointsAreTheSame = false;
 
 	skeleMesh1 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeleMesh1"));
 	skeleMesh2 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeleMesh2"));
@@ -34,6 +35,9 @@ AAnchovieCharacter::AAnchovieCharacter()
 	skeleMesh4->AttachTo(RootComponent);
 	skeleMesh5->AttachTo(RootComponent);
 	skeleMesh6->AttachTo(RootComponent);
+
+	AAnchovieController* Controller;
+	Controller = Cast<AAnchovieController>(this->GetController());
 
 	OnActorBeginOverlap.AddDynamic(this, &AAnchovieCharacter::OnActorOverlaping);
 
@@ -56,9 +60,13 @@ void AAnchovieCharacter::OnActorOverlaping(AActor* OtherActor)
 
 	}
 }
-/*
-void AAnchovieCharacter::NextWayPoint(bool GotToPoint)
+
+void AAnchovieCharacter::NextWayPoint()
 {
+
+	AAnchovieController* Controller;
+
+	Controller = Cast<AAnchovieController>(this->GetController());
 	if (Waypoints.Num() > 1)
 	{
 		if (!LightOn)
@@ -66,28 +74,54 @@ void AAnchovieCharacter::NextWayPoint(bool GotToPoint)
 			if (Waypoints.Last() == Waypoints[WaypointAt])
 			{
 				WaypointAt = 0;
-
-
 			}
 			else
 			{
 				WaypointAt += 1;
-			}
+			} 
 		}
 		else
 		{
-			if (Waypoints.Last() == Waypoints[WaypointAt])
+			if (WaypointsBlockedByLight.Num() > 0)
 			{
-				WaypointAt = 0;
-
+				if (!WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
+				{
+					while (WaypointsAreTheSame == false)
+					{
+						if (!WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
+						{
+							if (Waypoints.Last() == Waypoints[WaypointAt])
+							{
+								WaypointAt = 0;
+							}
+							WaypointAt++;
+							WaypointsAreTheSame = true;
+						}
+					}
+				}
+				else if (WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
+				{
+					while (WaypointsAreTheSame == false)
+					{
+						if (WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
+						{
+							if (Waypoints.Last() == Waypoints[WaypointAt])
+							{
+								WaypointAt = 0;
+							}
+							WaypointAt++;
+							WaypointsAreTheSame = true;
+						}
+					}
+				}
+				WaypointsAreTheSame = false;
 			}
 
 		}
-		if (SelfController != NULL)
+		if (Controller != nullptr)
 		{
-			SelfController->UpdateWaypoint(Waypoints[WaypointAt]);
+			Controller->GetBlackBoardComponent()->SetValue<UBlackboardKeyType_Vector>(DestinationKeyName, Waypoints[WaypointAt]->GetActorLocation());
 		}
-		
 	}
+}
 
-}*/

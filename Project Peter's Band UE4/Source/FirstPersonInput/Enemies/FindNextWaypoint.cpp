@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-/*
+
 #include "FirstPersonInput.h"
 #include "AnchovieController.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyAllTypes.h"
 #include "FindNextWaypoint.h"
 
-EBTNodeResult::Type UFindNextWaypoint::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, AActor* WaypointToUpdate)
+EBTNodeResult::Type UFindNextWaypoint::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
@@ -14,9 +14,13 @@ EBTNodeResult::Type UFindNextWaypoint::ExecuteTask(UBehaviorTreeComponent& Owner
 		return EBTNodeResult::Failed;
 	}
 
-		if (ControllerToCall != NULL)
-		{
-			OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Object>(BlackboardKey.GetSelectedKeyID(), WaypointToUpdate);
-		}
+	AAnchovieController* Controller = Cast<AAnchovieController>(OwnerComp.GetOwner());
+	
+	if (Controller != nullptr)
+	{
+		Controller->SegwayTest(Controller->GetPawn());
+		return EBTNodeResult::Succeeded;
+	}
+
 	return EBTNodeResult::Failed;
-}*/
+}

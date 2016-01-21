@@ -43,16 +43,19 @@ public:
 		TArray<AActor*> Waypoints;
 
 	UPROPERTY(EditAnywhere)
-		TArray<AActor*> WaypointsBlockedByLight;
+	TArray<AActor*> WaypointsBlockedByLight;
 
 	UPROPERTY(EditAnywhere)
-		bool LightOn;
+	bool LightOn;
 
 	UPROPERTY(EditAnywhere)
-		float WaypointAt;
+	float WaypointAt;
 
-/*	UPROPERTY(EditAnywhere)
-		AAnchovieController *SelfController;*/
+	UPROPERTY(EditAnywhere)
+	FName DestinationKeyName;
+
+	UFUNCTION()
+		void NextWayPoint();
 
 protected:
 
@@ -63,6 +66,7 @@ protected:
 	UPROPERTY()
 		ALever *LeverToCollideWith;
 
-	/*UFUNCTION()
-		void NextWayPoint(bool GotToPoint);*/
+	UPROPERTY()
+		bool WaypointsAreTheSame;
+
 };

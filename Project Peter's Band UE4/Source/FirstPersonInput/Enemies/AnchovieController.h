@@ -19,6 +19,11 @@ class FIRSTPERSONINPUT_API AAnchovieController : public AAIController
 public:
 	AAnchovieController();
 	virtual void Possess(APawn* Pawn) override;
+	
+	UBlackboardComponent* GetBlackBoardComponent();
+	
+	UFUNCTION()
+	void SegwayTest(AActor* OtherActor);
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -26,10 +31,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	UBlackboardComponent* BlackboardComponent;
-
-	/*UFUNCTION()
-		void UpdateWaypoint(AActor* WaypointToUpdate);*/
-
 
 };
 
