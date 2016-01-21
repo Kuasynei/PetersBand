@@ -30,8 +30,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	UBoxComponent* DoorHinge;
 
+	UPROPERTY(EditAnywhere)
+	bool bIsLocked;
+
 private:
 
 	UPROPERTY(VisibleAnywhere)
 	bool bIsOpen;
+
 };

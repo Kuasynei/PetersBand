@@ -11,6 +11,7 @@ AInteractDoors::AInteractDoors()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
+
 	DoorHinge = CreateDefaultSubobject<UBoxComponent>(TEXT("Door Hinge"));
 	DoorHinge->SetBoxExtent(FVector(5, 10, 5));
 	DoorHinge->AddLocalOffset(FVector(-50, 0, 0));
@@ -39,21 +40,22 @@ void AInteractDoors::Tick( float DeltaTime )
 
 void AInteractDoors::Interact(AActor* Interactor)
 {
+		if (!bIsLocked)
+		{
+			FRotator CurrentRotation = AInteractDoors::GetActorRotation();
+			if (bIsOpen)
+			{
+				CurrentRotation.Yaw -= 90;
+				bIsOpen = false;
+			}
+			else
+			{
+				CurrentRotation.Yaw += 90;
+				bIsOpen = true;
+			}
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundEffect, GetActorLocation());
 
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundEffect, GetActorLocation());
-
-	FRotator CurrentRotation = AInteractDoors::GetActorRotation();
-	if (bIsOpen)
-	{
-		CurrentRotation.Yaw -= 90;
-		bIsOpen = false;
-	}
-	else
-	{
-		CurrentRotation.Yaw += 90;
-		bIsOpen = true;
-	}
-
-	SetActorRotation(CurrentRotation);
+			SetActorRotation(CurrentRotation);
+		}
 }
 
