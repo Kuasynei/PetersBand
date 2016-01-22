@@ -1,11 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
-#include "AnchovieController.h"
+#include "AntiChovieNextWayPoint.h"
+#include "AntichovieController.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyAllTypes.h"
-#include "FindNextWaypoint.h"
 
-EBTNodeResult::Type UFindNextWaypoint::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
+
+EBTNodeResult::Type UAntiChovieNextWayPoint::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
@@ -14,8 +15,8 @@ EBTNodeResult::Type UFindNextWaypoint::ExecuteTask(UBehaviorTreeComponent& Owner
 		return EBTNodeResult::Failed;
 	}
 
-	AAnchovieController* Controller = Cast<AAnchovieController>(OwnerComp.GetOwner());
-	
+	AAntichovieController* Controller = Cast<AAntichovieController>(OwnerComp.GetOwner());
+
 	if (Controller != nullptr)
 	{
 		Controller->RedirectToCharacter(Controller->GetPawn());

@@ -6,31 +6,31 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
-#include "AnchovieController.generated.h"
+#include "AntichovieController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FIRSTPERSONINPUT_API AAnchovieController : public AAIController
+class FIRSTPERSONINPUT_API AAntichovieController : public AAIController
 {
 	GENERATED_BODY()
-	
+
 public:
-	AAnchovieController();
+	AAntichovieController();
 	virtual void Possess(APawn* Pawn) override;
-	
+
 	UBlackboardComponent* GetBlackBoardComponent();
-	
+
 	UFUNCTION()
 		void RedirectToCharacter(AActor* OtherActor);
 
 protected:
 	UPROPERTY(VisibleAnywhere)
-	UBehaviorTreeComponent* BehaviorTreeComponent;
+		UBehaviorTreeComponent* BehaviorTreeComponent;
 
 	UPROPERTY(VisibleAnywhere)
-	UBlackboardComponent* BlackboardComponent;
+		UBlackboardComponent* BlackboardComponent;
 
 };
 
