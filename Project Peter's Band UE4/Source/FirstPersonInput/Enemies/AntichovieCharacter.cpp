@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
-#include "AnchovieCharacter.h"
-#include "AnchovieController.h"
+#include "AntichovieCharacter.h"
+#include "AntichovieController.h"
 #include "Interactables/Interactable.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyAllTypes.h"
 #include "Interactables/Lever.h"
@@ -10,12 +10,12 @@
 
 
 // Sets default values
-AAnchovieCharacter::AAnchovieCharacter()
+AAntichovieCharacter::AAntichovieCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	AIControllerClass = AAnchovieController::StaticClass();
+	AIControllerClass = AAntichovieController::StaticClass();
 
 	WaypointAt = 0;
 	LightOn = false;
@@ -36,15 +36,15 @@ AAnchovieCharacter::AAnchovieCharacter()
 	skeleMesh5->AttachTo(RootComponent);
 	skeleMesh6->AttachTo(RootComponent);
 
-	AAnchovieController* Controller;
-	Controller = Cast<AAnchovieController>(this->GetController());
+	AAntichovieController* Controller;
+	Controller = Cast<AAntichovieController>(this->GetController());
 
-	OnActorBeginOverlap.AddDynamic(this, &AAnchovieCharacter::OnActorOverlaping);
+	OnActorBeginOverlap.AddDynamic(this, &AAntichovieCharacter::OnActorOverlaping);
 
 }
 
 
-void AAnchovieCharacter::OnActorOverlaping(AActor* OtherActor)
+void AAntichovieCharacter::OnActorOverlaping(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
@@ -52,7 +52,7 @@ void AAnchovieCharacter::OnActorOverlaping(AActor* OtherActor)
 
 		if (LeverToCollideWith != NULL)
 		{
-			if (LeverToCollideWith->GetIsActivated() == false)
+			if (LeverToCollideWith->GetIsActivated() == true)
 			{
 				LeverToCollideWith->Interact(this);
 			}
@@ -61,12 +61,12 @@ void AAnchovieCharacter::OnActorOverlaping(AActor* OtherActor)
 	}
 }
 
-void AAnchovieCharacter::NextWayPoint()
+void AAntichovieCharacter::NextWayPoint()
 {
 
-	AAnchovieController* Controller;
+	AAntichovieController* Controller;
 
-	Controller = Cast<AAnchovieController>(this->GetController());
+	Controller = Cast<AAntichovieController>(this->GetController());
 	if (Waypoints.Num() > 1)
 	{
 		if (!LightOn)
@@ -78,7 +78,7 @@ void AAnchovieCharacter::NextWayPoint()
 			else
 			{
 				WaypointAt += 1;
-			} 
+			}
 		}
 		else
 		{

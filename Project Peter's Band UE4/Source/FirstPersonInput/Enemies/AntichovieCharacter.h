@@ -6,17 +6,19 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "Interactables/Interactable.h"
 #include "Interactables/Lever.h"
-#include "AnchovieCharacter.generated.h"
+#include "AntichovieCharacter.generated.h"
 
-
+/**
+ * 
+ */
 UCLASS()
-class FIRSTPERSONINPUT_API AAnchovieCharacter : public ACharacter
+class FIRSTPERSONINPUT_API AAntichovieCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AAnchovieCharacter();
+	AAntichovieCharacter();
 
 	UPROPERTY(EditAnywhere)
 		UBehaviorTree* BehaviorTree;
@@ -43,16 +45,16 @@ public:
 		TArray<AActor*> Waypoints;
 
 	UPROPERTY(EditAnywhere)
-	TArray<AActor*> WaypointsBlockedByLight;
+		TArray<AActor*> WaypointsBlockedByLight;
 
 	UPROPERTY(EditAnywhere)
-	bool LightOn;
+		bool LightOn;
 
 	UPROPERTY(EditAnywhere)
-	float WaypointAt;
+		float WaypointAt;
 
 	UPROPERTY(EditAnywhere)
-	FName DestinationKeyName;
+		FName DestinationKeyName;
 
 	UFUNCTION()
 		void NextWayPoint();

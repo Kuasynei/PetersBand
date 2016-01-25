@@ -1,21 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
-#include "AnchovieController.h"
+#include "AntichovieController.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyAllTypes.h"
-#include "AnchovieCharacter.h"
+#include "AntichovieCharacter.h"
 
-AAnchovieController::AAnchovieController()
+AAntichovieController::AAntichovieController()
 {
 	BehaviorTreeComponent = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorTreeComponent"));
 	BlackboardComponent = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComponent"));
 }
 
-void AAnchovieController::Possess(APawn* Pawn)
+void AAntichovieController::Possess(APawn* Pawn)
 {
 	Super::Possess(Pawn);
 
-	AAnchovieCharacter* Character = Cast<AAnchovieCharacter>(Pawn);
+	AAntichovieCharacter* Character = Cast<AAntichovieCharacter>(Pawn);
 	if (Character && Character->BehaviorTree)
 	{
 		BlackboardComponent->InitializeBlackboard(*Character->BehaviorTree->BlackboardAsset);
@@ -25,13 +25,13 @@ void AAnchovieController::Possess(APawn* Pawn)
 	}
 }
 
-UBlackboardComponent* AAnchovieController::GetBlackBoardComponent()
+UBlackboardComponent* AAntichovieController::GetBlackBoardComponent()
 {
 	return BlackboardComponent;
 }
 
-void AAnchovieController::RedirectToCharacter(AActor* OtherActor)
+void AAntichovieController::RedirectToCharacter(AActor* OtherActor)
 {
-	AAnchovieCharacter* Character = Cast<AAnchovieCharacter>(OtherActor);
+	AAntichovieCharacter* Character = Cast<AAntichovieCharacter>(OtherActor);
 	Character->NextWayPoint();
 }
