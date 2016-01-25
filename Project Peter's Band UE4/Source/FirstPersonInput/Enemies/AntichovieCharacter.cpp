@@ -3,10 +3,7 @@
 #include "FirstPersonInput.h"
 #include "AntichovieCharacter.h"
 #include "AntichovieController.h"
-#include "Interactables/Interactable.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyAllTypes.h"
-#include "Interactables/Lever.h"
-#include "GameFramework/Actor.h"
 
 
 // Sets default values
@@ -19,8 +16,6 @@ AAntichovieCharacter::AAntichovieCharacter()
 
 	WaypointAt = 0;
 	LightOn = false;
-
-	WaypointsAreTheSame = false;
 
 	skeleMesh1 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeleMesh1"));
 	skeleMesh2 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeleMesh2"));

@@ -64,8 +64,4 @@ protected:
 
 	UPROPERTY()
 		ALever *LeverToCollideWith;
-
-	UPROPERTY()
-		bool WaypointsAreTheSame;
-
 };
