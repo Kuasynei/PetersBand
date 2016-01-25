@@ -34,5 +34,8 @@ protected:
 
 	UFUNCTION()
 	virtual void OnActorOverlap(AActor* OtherActor);
+private:
+
+	bool isOn;
 
 };

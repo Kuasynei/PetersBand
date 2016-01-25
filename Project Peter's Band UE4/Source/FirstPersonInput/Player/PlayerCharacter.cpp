@@ -191,7 +191,7 @@ void APlayerCharacter::ActivateButton()
 	//As long as the closest actor is not null then it runs the interact function on that object
 	if (ClosestObject != nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, ClosestObject->GetName());
+		//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, ClosestObject->GetName());
 		if (ClosestObject->GetName().Contains("Door"))
 		{
 			if (ClosestObject->GetName().Contains("Interactable"))

@@ -3,10 +3,7 @@
 #include "FirstPersonInput.h"
 #include "AntichovieCharacter.h"
 #include "AntichovieController.h"
-#include "Interactables/Interactable.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyAllTypes.h"
-#include "Interactables/Lever.h"
-#include "GameFramework/Actor.h"
 
 
 // Sets default values
@@ -19,8 +16,6 @@ AAntichovieCharacter::AAntichovieCharacter()
 
 	WaypointAt = 0;
 	LightOn = false;
-
-	WaypointsAreTheSame = false;
 
 	skeleMesh1 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeleMesh1"));
 	skeleMesh2 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeleMesh2"));
@@ -48,16 +43,29 @@ void AAntichovieCharacter::OnActorOverlaping(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		LeverToCollideWith = Cast<ALever>(OtherActor);
-
-		if (LeverToCollideWith != NULL)
+		if (OtherActor->GetName().Contains("Lever"))
 		{
-			if (LeverToCollideWith->GetIsActivated() == true)
+			LeverToCollideWith = Cast<ALever>(OtherActor);
+
+			if (LeverToCollideWith != NULL)
 			{
-				LeverToCollideWith->Interact(this);
+				if (LeverToCollideWith->GetIsActivated() == true)
+				{
+					LeverToCollideWith->Interact(this);
+				}
 			}
 		}
-
+		else if (OtherActor->GetName().Contains("Light"))
+		{
+			if (LightOn == false)
+			{
+				LightOn = true;
+			}
+			else
+			{
+				LightOn = false;
+			}
+		}
 	}
 }
 
@@ -82,41 +90,14 @@ void AAntichovieCharacter::NextWayPoint()
 		}
 		else
 		{
-			if (WaypointsBlockedByLight.Num() > 0)
+			if (WaypointAt == 0)
 			{
-				if (!WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
-				{
-					while (WaypointsAreTheSame == false)
-					{
-						if (!WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
-						{
-							if (Waypoints.Last() == Waypoints[WaypointAt])
-							{
-								WaypointAt = 0;
-							}
-							WaypointAt++;
-							WaypointsAreTheSame = true;
-						}
-					}
-				}
-				else if (WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
-				{
-					while (WaypointsAreTheSame == false)
-					{
-						if (WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
-						{
-							if (Waypoints.Last() == Waypoints[WaypointAt])
-							{
-								WaypointAt = 0;
-							}
-							WaypointAt++;
-							WaypointsAreTheSame = true;
-						}
-					}
-				}
-				WaypointsAreTheSame = false;
+				WaypointAt = (Waypoints.Num() - 1);
 			}
-
+			else
+			{
+				WaypointAt -= 1;
+			}
 		}
 		if (Controller != nullptr)
 		{

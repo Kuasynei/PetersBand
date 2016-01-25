@@ -30,6 +30,8 @@ ALightSwitch::ALightSwitch()
 void ALightSwitch::BeginPlay()
 {
 	Super::BeginPlay();
+
+	isOn = true;
 }
 
 // Called every frame
@@ -52,4 +54,6 @@ void ALightSwitch::OnActorOverlap(AActor* OtherActor)
 		ATurtle* EnemyInteractor = Cast<ATurtle>(OtherActor);
 		EnemyInteractor->EnemyActivate(this);
 	}
+	SetActorEnableCollision(!isOn);
+	isOn = !isOn;
 }

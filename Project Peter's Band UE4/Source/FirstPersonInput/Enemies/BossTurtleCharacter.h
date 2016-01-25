@@ -6,50 +6,31 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "Interactables/Interactable.h"
 #include "Interactables/Lever.h"
-#include "AnchovieCharacter.generated.h"
-
+#include "BossTurtleCharacter.generated.h"
 
 UCLASS()
-class FIRSTPERSONINPUT_API AAnchovieCharacter : public ACharacter
+class FIRSTPERSONINPUT_API ABossTurtleCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AAnchovieCharacter();
+	ABossTurtleCharacter();
 
 	UPROPERTY(EditAnywhere)
 		UBehaviorTree* BehaviorTree;
 
 	UPROPERTY(EditAnywhere)
-		USkeletalMeshComponent* skeleMesh1;
-
-	UPROPERTY(EditAnywhere)
-		USkeletalMeshComponent* skeleMesh2;
-
-	UPROPERTY(EditAnywhere)
-		USkeletalMeshComponent* skeleMesh3;
-
-	UPROPERTY(EditAnywhere)
-		USkeletalMeshComponent* skeleMesh4;
-
-	UPROPERTY(EditAnywhere)
-		USkeletalMeshComponent* skeleMesh5;
-
-	UPROPERTY(EditAnywhere)
-		USkeletalMeshComponent* skeleMesh6;
-
-	UPROPERTY(EditAnywhere)
 		TArray<AActor*> Waypoints;
 
 	UPROPERTY(EditAnywhere)
-	bool LightOn;
+		bool LightOn;
 
 	UPROPERTY(EditAnywhere)
-	float WaypointAt;
+		float WaypointAt;
 
 	UPROPERTY(EditAnywhere)
-	FName DestinationKeyName;
+		FName DestinationKeyName;
 
 	UFUNCTION()
 		void NextWayPoint();
