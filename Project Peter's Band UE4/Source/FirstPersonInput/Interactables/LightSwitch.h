@@ -30,4 +30,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* LightCollider;
 
+private:
+
+	bool isOn;
+
 };

@@ -27,6 +27,8 @@ ALightSwitch::ALightSwitch()
 void ALightSwitch::BeginPlay()
 {
 	Super::BeginPlay();
+
+	isOn = true;
 }
 
 // Called every frame
@@ -39,4 +41,6 @@ void ALightSwitch::Tick( float DeltaTime )
 void ALightSwitch::Interact(AActor* Interactor)
 {
 	SpotLight->ToggleVisibility();
+	SetActorEnableCollision(!isOn);
+	isOn = !isOn;
 }

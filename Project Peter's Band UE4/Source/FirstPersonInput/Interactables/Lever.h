@@ -27,6 +27,7 @@ public:
 	UFUNCTION()
 		virtual void Interact(AActor* Interactor);
 
+	UPROPERTY(EditAnywhere)
 	bool bIsActivated;
 
 	UFUNCTION()
