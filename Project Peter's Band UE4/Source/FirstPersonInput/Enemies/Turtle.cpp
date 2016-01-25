@@ -21,6 +21,8 @@ ATurtle::ATurtle()
 void ATurtle::BeginPlay()
 {
 	Super::BeginPlay();
+
+	bVisible = true;
 	
 }
 
@@ -48,6 +50,19 @@ void ATurtle::EnemyInteract(AActor* Interactor)
 void ATurtle::EnemyActivate(AActor* Interactor)
 {
 	//TURN ON AND OFF TURTLE VIA LIGHT HERE
+
+	if (bVisible == true)
+	{
+		//Make invisible
+		RootComponent->SetVisibility(false);
+		return;
+	}
+	else
+	{
+		//Make Visible
+		RootComponent->SetVisibility(true);
+		return;
+	}
 }
 
 

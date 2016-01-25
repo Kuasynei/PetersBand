@@ -30,6 +30,10 @@ public:
 protected:
 
 
+private:
+
+	bool bVisible;
+
 
 	
 	

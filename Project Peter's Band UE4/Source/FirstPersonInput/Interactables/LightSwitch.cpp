@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
+#include "Enemies/Turtle.h"
 #include "LightSwitch.h"
 
 
@@ -21,6 +22,8 @@ ALightSwitch::ALightSwitch()
 	LightCollider->InitSphereRadius(600.f);
 	LightCollider->RelativeLocation = FVector(600, 0, 0);
 
+	OnActorBeginOverlap.AddDynamic(this, &ALightSwitch::OnActorOverlap);
+
 }
 
 // Called when the game starts or when spawned
@@ -39,4 +42,14 @@ void ALightSwitch::Tick( float DeltaTime )
 void ALightSwitch::Interact(AActor* Interactor)
 {
 	SpotLight->ToggleVisibility();
+	LightCollider->ToggleVisibility();
+}
+
+void ALightSwitch::OnActorOverlap(AActor* OtherActor)
+{
+	if (OtherActor != GetOwner())
+	{
+		ATurtle* EnemyInteractor = Cast<ATurtle>(OtherActor);
+		EnemyInteractor->EnemyActivate(this);
+	}
 }

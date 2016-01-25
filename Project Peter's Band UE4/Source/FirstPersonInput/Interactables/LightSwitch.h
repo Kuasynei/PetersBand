@@ -30,4 +30,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* LightCollider;
 
+protected:
+
+	UFUNCTION()
+	virtual void OnActorOverlap(AActor* OtherActor);
+
 };
