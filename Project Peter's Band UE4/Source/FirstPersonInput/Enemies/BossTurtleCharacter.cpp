@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/* Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
 #include "BossTurtleCharacter.h"
@@ -49,11 +49,11 @@ void ABossTurtleCharacter::NextWayPoint()
 	ABossTurtleController* Controller;
 
 	Controller = Cast<ABossTurtleController>(this->GetController());
-	if (Waypoints.Num() > 1)
+	if (!LightOn)
 	{
-		if (!LightOn)
+		if (PathA.Num() > 1)
 		{
-			if (Waypoints.Last() == Waypoints[WaypointAt])
+			if (PathA.Last() == PathA[WaypointAt])
 			{
 				WaypointAt = 0;
 			}
@@ -66,7 +66,7 @@ void ABossTurtleCharacter::NextWayPoint()
 		{
 			if (WaypointAt == 0)
 			{
-				WaypointAt = (Waypoints.Num() - 1);
+				WaypointAt = (PathA.Num() - 1);
 			}
 			else
 			{
@@ -75,7 +75,9 @@ void ABossTurtleCharacter::NextWayPoint()
 		}
 		if (Controller != nullptr)
 		{
-			Controller->GetBlackBoardComponent()->SetValue<UBlackboardKeyType_Vector>(DestinationKeyName, Waypoints[WaypointAt]->GetActorLocation());
+			Controller->GetBlackBoardComponent()->SetValue<UBlackboardKeyType_Vector>(DestinationKeyName, PathA[WaypointAt]->GetActorLocation());
 		}
 	}
 }
+
+*/

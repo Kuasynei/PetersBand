@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/* Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
 #include "BossTurtleController.h"
@@ -36,3 +36,4 @@ void ABossTurtleController::RedirectToCharacter(AActor* OtherActor)
 	Character->NextWayPoint();
 }
 
+*/

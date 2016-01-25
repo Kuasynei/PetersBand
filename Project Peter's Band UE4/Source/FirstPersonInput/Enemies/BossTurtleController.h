@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/*Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -8,9 +8,6 @@
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
 #include "BossTurtleController.generated.h"
 
-/**
-*
-*/
 UCLASS()
 class FIRSTPERSONINPUT_API ABossTurtleController : public AAIController
 {
@@ -33,3 +30,4 @@ protected:
 		UBlackboardComponent* BlackboardComponent;
 
 };
+*/
