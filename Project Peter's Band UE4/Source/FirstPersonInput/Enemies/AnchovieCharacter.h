@@ -43,9 +43,6 @@ public:
 		TArray<AActor*> Waypoints;
 
 	UPROPERTY(EditAnywhere)
-	TArray<AActor*> WaypointsBlockedByLight;
-
-	UPROPERTY(EditAnywhere)
 	bool LightOn;
 
 	UPROPERTY(EditAnywhere)

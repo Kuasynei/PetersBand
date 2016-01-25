@@ -48,16 +48,29 @@ void AAnchovieCharacter::OnActorOverlaping(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		LeverToCollideWith = Cast<ALever>(OtherActor);
-
-		if (LeverToCollideWith != NULL)
+		if (OtherActor->GetName().Contains("Lever"))
 		{
-			if (LeverToCollideWith->GetIsActivated() == false)
+			LeverToCollideWith = Cast<ALever>(OtherActor);
+
+			if (LeverToCollideWith != NULL)
 			{
-				LeverToCollideWith->Interact(this);
+				if (LeverToCollideWith->GetIsActivated() == true)
+				{
+					LeverToCollideWith->Interact(this);
+				}
 			}
 		}
-
+		else if (OtherActor->GetName().Contains("Light"))
+		{
+			if (LightOn == false)
+			{
+				LightOn = true;
+			}
+			else
+			{
+				LightOn = false;
+			}
+		}
 	}
 }
 
@@ -82,41 +95,14 @@ void AAnchovieCharacter::NextWayPoint()
 		}
 		else
 		{
-			if (WaypointsBlockedByLight.Num() > 0)
+			if (WaypointAt == 0)
 			{
-				if (!WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
-				{
-					while (WaypointsAreTheSame == false)
-					{
-						if (!WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
-						{
-							if (Waypoints.Last() == Waypoints[WaypointAt])
-							{
-								WaypointAt = 0;
-							}
-							WaypointAt++;
-							WaypointsAreTheSame = true;
-						}
-					}
-				}
-				else if (WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
-				{
-					while (WaypointsAreTheSame == false)
-					{
-						if (WaypointsBlockedByLight.Find(Waypoints[WaypointAt]))
-						{
-							if (Waypoints.Last() == Waypoints[WaypointAt])
-							{
-								WaypointAt = 0;
-							}
-							WaypointAt++;
-							WaypointsAreTheSame = true;
-						}
-					}
-				}
-				WaypointsAreTheSame = false;
+				WaypointAt = (Waypoints.Num() - 1);
 			}
-
+			else
+			{
+				WaypointAt -= 1;
+			}
 		}
 		if (Controller != nullptr)
 		{
