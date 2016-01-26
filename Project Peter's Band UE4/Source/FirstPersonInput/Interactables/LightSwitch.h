@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "Interactable.h"
+#include "Enemies/Turtle.h"
 #include "LightSwitch.generated.h"
 
 UCLASS()
@@ -32,10 +33,14 @@ public:
 
 protected:
 
-	UFUNCTION()
-	virtual void OnActorOverlap(AActor* OtherActor);
+
 private:
+
+	ATurtle *turtle;
+
+	//TArray<ATurtle*> turtles;
 
 	bool isOn;
 
+	void CheckOverlapping();
 };

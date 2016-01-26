@@ -15,6 +15,9 @@ ATurtle::ATurtle()
 
 	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	SkeletalMesh->AttachTo(RootComponent);
+
+	OnActorBeginOverlap.AddDynamic(this, &ATurtle::BeginOverlap);
+	OnActorEndOverlap.AddDynamic(this, &ATurtle::EndOverlap);
 }
 
 // Called when the game starts or when spawned
@@ -31,12 +34,14 @@ void ATurtle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+
 	//GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Black, FString::Printf(TEXT("Turtle Physics: %s"), Collider->IsSimulatingPhysics() ? TEXT("true") : TEXT("false")));
 }
 
 void ATurtle::EnemyInteract(AActor* Interactor)
 {
 	//DO INTERACTIONS HERE
+	GEngine->AddOnScreenDebugMessage(1, 5, FColor::Red, StatMesh->IsSimulatingPhysics() ? TEXT("false") : TEXT("true"));
 	if (StatMesh->IsSimulatingPhysics())
 	{
 		StatMesh->SetSimulatePhysics(false);
@@ -47,22 +52,26 @@ void ATurtle::EnemyInteract(AActor* Interactor)
 	}
 }
 
-void ATurtle::EnemyActivate(AActor* Interactor)
-{
-	//TURN ON AND OFF TURTLE VIA LIGHT HERE
 
-	if (bVisible == true)
-	{
-		//Make invisible
-		RootComponent->SetVisibility(false);
-		return;
-	}
-	else
-	{
-		//Make Visible
-		RootComponent->SetVisibility(true);
-		return;
-	}
+void ATurtle::BeginOverlap(AActor* OtherActor)
+{
+	//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, OtherActor->GetName());
+
 }
 
+void ATurtle::EndOverlap(AActor* OtherActor)
+{
 
+}
+
+void ATurtle::PowerOff()
+{
+		SetActorHiddenInGame(true);
+		SetActorEnableCollision(false);
+}
+
+void ATurtle::PowerOn()
+{
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+}

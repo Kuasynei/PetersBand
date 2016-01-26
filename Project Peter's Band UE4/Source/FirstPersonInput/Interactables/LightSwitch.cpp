@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
-#include "Enemies/Turtle.h"
 #include "LightSwitch.h"
 
 
@@ -22,8 +21,7 @@ ALightSwitch::ALightSwitch()
 	LightCollider->InitSphereRadius(600.f);
 	LightCollider->RelativeLocation = FVector(600, 0, 0);
 
-	OnActorBeginOverlap.AddDynamic(this, &ALightSwitch::OnActorOverlap);
-
+	turtle = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -38,22 +36,49 @@ void ALightSwitch::BeginPlay()
 void ALightSwitch::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
+	
+	CheckOverlapping();
 }
 
 void ALightSwitch::Interact(AActor* Interactor)
 {
 	SpotLight->ToggleVisibility();
 	LightCollider->ToggleVisibility();
-}
+	
 
-void ALightSwitch::OnActorOverlap(AActor* OtherActor)
-{
-	if (OtherActor != GetOwner())
-	{
-		ATurtle* EnemyInteractor = Cast<ATurtle>(OtherActor);
-		EnemyInteractor->EnemyActivate(this);
-	}
 	SetActorEnableCollision(!isOn);
 	isOn = !isOn;
+}
+
+
+void ALightSwitch::CheckOverlapping()
+{
+
+	TArray<AActor*> OverlappingActors;
+
+	GetOverlappingActors(OverlappingActors, ATurtle::StaticClass());
+
+	//TArray<ATurtle*> turtles;
+
+	for (int i = 0; i < OverlappingActors.Num(); i++)
+	{
+		if (OverlappingActors[i]->GetName().Contains("Turtle"))
+		{
+			turtle = Cast<ATurtle>(OverlappingActors[i]);
+		}
+
+		if (!turtle) continue;
+	}
+
+	if (turtle != nullptr)
+	{
+		if (isOn)
+		{
+			turtle->PowerOff();
+		}
+		else
+		{
+			turtle->PowerOn();
+		}
+	}
 }

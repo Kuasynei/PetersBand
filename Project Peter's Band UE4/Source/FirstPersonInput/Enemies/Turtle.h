@@ -22,19 +22,26 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION()
-	virtual void EnemyActivate(AActor* Interactor);
+	virtual void EnemyInteract(AActor* Interactor);
 
 	UFUNCTION()
-	virtual void EnemyInteract(AActor* Interactor);
+		void PowerOff();
+	UFUNCTION()
+		void PowerOn();
 
 protected:
 
+	UFUNCTION()
+		virtual void BeginOverlap(AActor* OtherActor);
+
+	UFUNCTION()
+		virtual void EndOverlap(AActor* OtherActor);
 
 private:
 
 	bool bVisible;
 
-
+	bool overlappingLight;
 	
 	
 };
