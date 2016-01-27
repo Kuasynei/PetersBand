@@ -31,17 +31,8 @@ public:
 
 protected:
 
-	UFUNCTION()
-		virtual void BeginOverlap(AActor* OtherActor);
-
-	UFUNCTION()
-		virtual void EndOverlap(AActor* OtherActor);
-
 private:
 
 	bool bVisible;
 
-	bool overlappingLight;
-	
-	
 };

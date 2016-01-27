@@ -38,7 +38,7 @@ private:
 
 	ATurtle *turtle;
 
-	//TArray<ATurtle*> turtles;
+	TArray<ATurtle*> turtles;
 
 	bool isOn;
 

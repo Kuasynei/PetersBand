@@ -16,8 +16,6 @@ ATurtle::ATurtle()
 	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	SkeletalMesh->AttachTo(RootComponent);
 
-	OnActorBeginOverlap.AddDynamic(this, &ATurtle::BeginOverlap);
-	OnActorEndOverlap.AddDynamic(this, &ATurtle::EndOverlap);
 }
 
 // Called when the game starts or when spawned
@@ -34,7 +32,6 @@ void ATurtle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-
 	//GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Black, FString::Printf(TEXT("Turtle Physics: %s"), Collider->IsSimulatingPhysics() ? TEXT("true") : TEXT("false")));
 }
 
@@ -50,18 +47,6 @@ void ATurtle::EnemyInteract(AActor* Interactor)
 	{
 		StatMesh->SetSimulatePhysics(true);
 	}
-}
-
-
-void ATurtle::BeginOverlap(AActor* OtherActor)
-{
-	//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, OtherActor->GetName());
-
-}
-
-void ATurtle::EndOverlap(AActor* OtherActor)
-{
-
 }
 
 void ATurtle::PowerOff()

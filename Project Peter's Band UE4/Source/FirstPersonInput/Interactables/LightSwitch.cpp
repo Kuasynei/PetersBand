@@ -38,6 +38,24 @@ void ALightSwitch::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 	
 	CheckOverlapping();
+	if (isOn)
+	{
+		for (int i = 0; i < turtles.Num(); i++)
+		{
+			if (turtles[i] != nullptr)
+			{
+				turtles[i]->PowerOff();
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < turtles.Num(); i++)
+		{
+			turtles[i]->PowerOn();
+			turtles.RemoveAt(i);
+		}
+	}
 }
 
 void ALightSwitch::Interact(AActor* Interactor)
@@ -46,8 +64,9 @@ void ALightSwitch::Interact(AActor* Interactor)
 	LightCollider->ToggleVisibility();
 	
 
-	SetActorEnableCollision(!isOn);
+	//SetActorEnableCollision(!isOn);
 	isOn = !isOn;
+
 }
 
 
@@ -58,27 +77,28 @@ void ALightSwitch::CheckOverlapping()
 
 	GetOverlappingActors(OverlappingActors, ATurtle::StaticClass());
 
-	//TArray<ATurtle*> turtles;
-
 	for (int i = 0; i < OverlappingActors.Num(); i++)
 	{
 		if (OverlappingActors[i]->GetName().Contains("Turtle"))
 		{
-			turtle = Cast<ATurtle>(OverlappingActors[i]);
+			//turtle = Cast<ATurtle>(OverlappingActors[i]);
+			turtles.Add(Cast<ATurtle>(OverlappingActors[i]));
 		}
 
-		if (!turtle) continue;
 	}
 
-	if (turtle != nullptr)
-	{
-		if (isOn)
-		{
-			turtle->PowerOff();
-		}
-		else
-		{
-			turtle->PowerOn();
-		}
-	}
+	//***SINGLE TURTLE USE***//
+
+	//if (turtle != nullptr)
+	//{
+	//	if (isOn)
+	//	{
+	//		turtle->PowerOff();
+	//	}
+	//	else
+	//	{
+	//		turtle->PowerOn();
+	//		turtle = nullptr;
+	//	}
+	//}
 }
