@@ -21,7 +21,7 @@ public:
 	USoundCue* NarrativeSound;
 
 	UPROPERTY(EditAnywhere)
-		UBoxComponent* Collider;
+	UBoxComponent* Collider;
 
 protected:
 
