@@ -50,7 +50,7 @@ Put your UE4 project folder in your github folder. If you need to delete project
 *!!DO NOT DELETE .gitignore OR THE README!!*
 
 
- ## Troubleshooting
+## Troubleshooting
 
 Q: When I open "projectnamehere.sln" (Microsoft Visual Studio Solution), the files/folders are weird, 
    and I can't move to the next step.

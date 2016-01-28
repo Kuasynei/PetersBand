@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "Interactable.h"
+#include "Enemies/Turtle.h"
 #include "LightSwitch.generated.h"
 
 UCLASS()
@@ -30,12 +31,17 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* LightCollider;
 
-protected:
-
-	UFUNCTION()
-	virtual void OnActorOverlap(AActor* OtherActor);
-private:
-
+	UPROPERTY(EditAnywhere)
 	bool isOn;
 
+protected:
+
+
+private:
+
+	ATurtle *turtle;
+
+	TArray<ATurtle*> turtles;
+
+	void CheckOverlapping();
 };

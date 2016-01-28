@@ -22,19 +22,17 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION()
-	virtual void EnemyActivate(AActor* Interactor);
-
-	UFUNCTION()
 	virtual void EnemyInteract(AActor* Interactor);
 
-protected:
+	UFUNCTION()
+		void PowerOff();
+	UFUNCTION()
+		void PowerOn();
 
+protected:
 
 private:
 
 	bool bVisible;
 
-
-	
-	
 };

@@ -15,6 +15,7 @@ ATurtle::ATurtle()
 
 	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	SkeletalMesh->AttachTo(RootComponent);
+
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +38,7 @@ void ATurtle::Tick( float DeltaTime )
 void ATurtle::EnemyInteract(AActor* Interactor)
 {
 	//DO INTERACTIONS HERE
+	GEngine->AddOnScreenDebugMessage(1, 5, FColor::Red, StatMesh->IsSimulatingPhysics() ? TEXT("false") : TEXT("true"));
 	if (StatMesh->IsSimulatingPhysics())
 	{
 		StatMesh->SetSimulatePhysics(false);
@@ -47,22 +49,14 @@ void ATurtle::EnemyInteract(AActor* Interactor)
 	}
 }
 
-void ATurtle::EnemyActivate(AActor* Interactor)
+void ATurtle::PowerOff()
 {
-	//TURN ON AND OFF TURTLE VIA LIGHT HERE
-
-	if (bVisible == true)
-	{
-		//Make invisible
-		RootComponent->SetVisibility(false);
-		return;
-	}
-	else
-	{
-		//Make Visible
-		RootComponent->SetVisibility(true);
-		return;
-	}
+		SetActorHiddenInGame(true);
+		SetActorEnableCollision(false);
 }
 
-
+void ATurtle::PowerOn()
+{
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+}

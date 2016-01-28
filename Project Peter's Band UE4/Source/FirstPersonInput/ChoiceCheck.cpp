@@ -38,13 +38,20 @@ void AChoiceCheck::OnActorOverlap(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		if (Cast<APlayerCharacter>(OtherActor)->GetLastChoice() == false)
+		APlayerCharacter* Player;
+
+		Player = Cast<APlayerCharacter>(OtherActor);
+
+		if (Player)
 		{
-			Cast<APlayerCharacter>(OtherActor)->SetLastChoice(true);
-		}
-		else
-		{
-			Cast<APlayerCharacter>(OtherActor)->SetLastChoice(false);
+			if (Player->GetLastChoice() == false)
+			{
+				Player->SetLastChoice(true);
+			}
+			else
+			{
+				Player->SetLastChoice(false);
+			}
 		}
 	}
 }
