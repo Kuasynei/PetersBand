@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Interactables/Interactable.h"
+#include "Interactables/LightSwitch.h"
 #include "Interactables/Lever.h"
 #include "AntichovieCharacter.generated.h"
 
@@ -64,4 +65,7 @@ protected:
 
 	UPROPERTY()
 		ALever *LeverToCollideWith;
+
+	UPROPERTY()
+		ALightSwitch *TheSwitch;
 };
