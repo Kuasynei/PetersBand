@@ -31,6 +31,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* LightCollider;
 
+	UPROPERTY(EditAnywhere)
+	bool isOn;
+
 protected:
 
 
@@ -39,8 +42,6 @@ private:
 	ATurtle *turtle;
 
 	TArray<ATurtle*> turtles;
-
-	bool isOn;
 
 	void CheckOverlapping();
 };

@@ -29,7 +29,11 @@ void ALightSwitch::BeginPlay()
 {
 	Super::BeginPlay();
 
-	isOn = true;
+	if (!isOn)
+	{
+		SpotLight->ToggleVisibility();
+		LightCollider->ToggleVisibility();
+	}
 }
 
 // Called every frame
