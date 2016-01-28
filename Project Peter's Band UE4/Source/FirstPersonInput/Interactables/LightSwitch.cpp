@@ -106,3 +106,8 @@ void ALightSwitch::CheckOverlapping()
 	//	}
 	//}
 }
+
+bool ALightSwitch::GetIsOn()
+{
+	return isOn;
+}
