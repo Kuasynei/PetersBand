@@ -34,6 +34,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	bool isOn;
 
+	UFUNCTION()
+	bool GetIsOn();
+
 protected:
 
 

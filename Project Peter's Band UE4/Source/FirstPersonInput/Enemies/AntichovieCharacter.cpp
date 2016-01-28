@@ -57,17 +57,26 @@ void AAntichovieCharacter::OnActorOverlaping(AActor* OtherActor)
 		}
 		else if (OtherActor->GetName().Contains("Light"))
 		{
-			if (LightOn == false)
+			TheSwitch = Cast<ALightSwitch>(OtherActor);
+
+			if (TheSwitch != NULL)
 			{
-				LightOn = true;
-			}
-			else
-			{
-				LightOn = false;
+				if (TheSwitch->GetIsOn() == true)
+				{
+					if (LightOn == false)
+					{
+						LightOn = true;
+					}
+					else
+					{
+						LightOn = false;
+					}
+				}
 			}
 		}
 	}
 }
+
 
 void AAntichovieCharacter::NextWayPoint()
 {
