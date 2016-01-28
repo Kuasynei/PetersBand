@@ -60,19 +60,19 @@ void APortalManager::BeginPlay()
 		FActorSpawnParameters SpawnInfo;
 		SpawnInfo.Template = OriginMap.APortal;
 		APortalMap.APortal = GetWorld()->SpawnActor(OriginMap.APortal->GetClass(), new FVector(0, 0, 0), new FRotator(0, 0, 0), SpawnInfo);
-		APortalMap.APortal->SetActorLabel(*(const FString("PortalA MAP A" + FString::FromInt(i + 1))));
+		APortalMap.APortal->SetActorLabel(*(const FString("PortalA MAP " + FString::FromInt(i + 1) + "A")));
 
 		SpawnInfo.Template = OriginMap.BPortal;
 		APortalMap.BPortal = GetWorld()->SpawnActor(OriginMap.BPortal->GetClass(), new FVector(0, 0, 0), new FRotator(0, 0, 0), SpawnInfo);
-		APortalMap.BPortal->SetActorLabel(*(const FString("PortalB MAP A" + FString::FromInt(i + 1))));
+		APortalMap.BPortal->SetActorLabel(*(const FString("PortalB MAP " + FString::FromInt(i + 1) + "A")));
 
 		SpawnInfo.Template = OriginMap.APortal;
 		BPortalMap.APortal = GetWorld()->SpawnActor(OriginMap.APortal->GetClass(), new FVector(0, 0, 0), new FRotator(0, 0, 0), SpawnInfo);
-		BPortalMap.APortal->SetActorLabel(*(const FString("PortalA MAP B" + FString::FromInt(i + 1))));
+		BPortalMap.APortal->SetActorLabel(*(const FString("PortalA MAP " + FString::FromInt(i + 1) + "B")));
 
 		SpawnInfo.Template = OriginMap.BPortal;
 		BPortalMap.BPortal = GetWorld()->SpawnActor(OriginMap.BPortal->GetClass(), new FVector(0, 0, 0), new FRotator(0, 0, 0), SpawnInfo);
-		BPortalMap.BPortal->SetActorLabel(*(const FString("PortalB MAP B" + FString::FromInt(i + 1))));
+		BPortalMap.BPortal->SetActorLabel(*(const FString("PortalB MAP " + FString::FromInt(i + 1) + "B")));
 
 		//Moving the Portal Doors to align with the Origin Map, and saving the transform to be used for other map elements.
 		FVector MapAtoOrigin = FVector(OriginMap.BPortal->GetActorLocation().X - APortalMap.APortal->GetActorLocation().X,
@@ -91,9 +91,9 @@ void APortalManager::BeginPlay()
 		//Spawning ActiveMapZones.
 		SpawnInfo.Template = OriginMap.ActiveMapZone;
 		APortalMap.ActiveMapZone = GetWorld()->SpawnActor(OriginMap.ActiveMapZone->GetClass(), new FVector(0, 0, 0), new FRotator(0, 0, 0), SpawnInfo);
-		APortalMap.ActiveMapZone->SetActorLabel(*(const FString("ActiveMapZone MAP A" + FString::FromInt(i + 1))));
+		APortalMap.ActiveMapZone->SetActorLabel(*(const FString("ActiveMapZone MAP " + FString::FromInt(i + 1) + "A")));
 		BPortalMap.ActiveMapZone = GetWorld()->SpawnActor(OriginMap.ActiveMapZone->GetClass(), new FVector(0, 0, 0), new FRotator(0, 0, 0), SpawnInfo);
-		BPortalMap.ActiveMapZone->SetActorLabel(*(const FString("ActiveMapZone MAP B" + FString::FromInt(i + 1))));
+		BPortalMap.ActiveMapZone->SetActorLabel(*(const FString("ActiveMapZone MAP " + FString::FromInt(i + 1) + "B")));
 
 		APortalMap.ActiveMapZone->SetActorLocation(APortalMap.ActiveMapZone->GetActorLocation() + MapAtoOrigin);
 		BPortalMap.ActiveMapZone->SetActorLocation(BPortalMap.ActiveMapZone->GetActorLocation() + MapBtoOrigin);
