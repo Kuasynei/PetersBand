@@ -12,7 +12,7 @@ ALiftableBox::ALiftableBox()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
-	
+
 	VisibleBox = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisibleBox"));
 	VisibleBox->AttachTo(Collider);
 
@@ -25,7 +25,6 @@ void ALiftableBox::BeginPlay()
 	Super::BeginPlay();
 
 	isLifted = false;
-	
 }
 
 // Called every frame
