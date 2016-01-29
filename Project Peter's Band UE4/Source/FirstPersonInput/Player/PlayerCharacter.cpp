@@ -276,6 +276,17 @@ void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
+		if (OtherActor->GetName().Contains("Fantasy"))
+		{
+			if (FantasyCounter == NULL)
+			{
+				FantasyCounter = 0;
+			}
+			if (FantasyCounter != NULL)
+			{
+				UpdateCamera(FantasyCounter);
+			}
+		}
 	}
 }
 
@@ -287,3 +298,30 @@ void APlayerCharacter::OnActorOverlapEnd(AActor* OtherActor)
 		//
 	}
 }
+
+void APlayerCharacter::UpdateCamera(float Counter)
+{
+	TheCameraToEffect = Cast<ACameraActor>(this->GetFirstPersonCameraComponent());
+
+	if (Counter == 0)
+	{
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.FilmSaturation = 1;
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.VignetteIntensity = 0;
+	}
+	else if (Counter == 1)
+	{
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.FilmSaturation = 1.2;
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.VignetteIntensity = 0.1;
+	}
+	else if (Counter == 2)
+	{
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.FilmSaturation = 1.35;
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.VignetteIntensity = 0.2;
+	}
+	else if (Counter > 2)
+	{
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.FilmSaturation = 1.5;
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.VignetteIntensity = 0.3;
+	}
+}
+
