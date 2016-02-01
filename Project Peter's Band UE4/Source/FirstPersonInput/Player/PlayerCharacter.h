@@ -4,6 +4,7 @@
 
 #include "GameFramework/Character.h"
 #include "Equips/BaseEquips.h"
+#include "PetersLocalPlayer.h"
 #include "Interactables/LiftableBox.h"
 #include "PlayerCharacter.generated.h"
 
@@ -69,7 +70,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundCue* WalkSound;
 
+
 protected:
+
+	UPROPERTY()
+		ACameraActor* TheCameraToEffect;
+
+	UFUNCTION()
+		void UpdateCamera(float Counter);
+
+	UPROPERTY()
+		float FantasyCounter;
+
 
 	//Checks for what the player character is currently doing for sounds
 	bool isWalkingForward;
