@@ -4,7 +4,7 @@
 
 #include "GameFramework/Character.h"
 #include "Equips/BaseEquips.h"
-#include "PetersLocalPlayer.h"
+#include "TheSaveGame.h"
 #include "Interactables/LiftableBox.h"
 #include "PlayerCharacter.generated.h"
 
@@ -70,6 +70,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundCue* WalkSound;
 
+	UPROPERTY()
+		UTheSaveGame* SaveGameInstance = Cast<UTheSaveGame>(UGameplayStatics::CreateSaveGameObject(UTheSaveGame::StaticClass()));
 
 protected:
 
@@ -81,6 +83,8 @@ protected:
 
 	UPROPERTY()
 		float FantasyCounter;
+
+	bool CameraIsChanging;
 
 
 	//Checks for what the player character is currently doing for sounds
