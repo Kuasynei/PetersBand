@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FirstPersonInput.h"
-#include "Interactables/Interactable.h"
+#include "Interactable.h"
 #include "PlayerCharacter.h"
 
 
@@ -26,7 +26,6 @@ APlayerCharacter::APlayerCharacter()
 	Mesh1P->bCastDynamicShadow = false;
 	Mesh1P->CastShadow = false;
 
-
 	//BOX PICKUP CODE//
 	Hand = CreateDefaultSubobject<USceneComponent>(TEXT("Hand"));
 	Hand->AttachTo(FirstPersonCameraComponent);
@@ -37,47 +36,27 @@ APlayerCharacter::APlayerCharacter()
 	OnActorEndOverlap.AddDynamic(this, &APlayerCharacter::OnActorOverlapEnd);
 }
 
-
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	bCurrentlyLiftingBox = false;
 
-	//FANTASY CAMERA CODE//
-	FantasyCounter = SaveGameInstance->SavedFantasyCounter;
-	UpdateCamera(FantasyCounter);
-	//FANTASY CAMERA CODE//
+
+	if (DefaultEquipClass)
+	{
+		Equip(DefaultEquipClass);
+	}
+	
+
+	bCurrentlyLiftingBox = false;
 
 }
 
-
 // Called every frame
-void APlayerCharacter::Tick(float DeltaTime)
+void APlayerCharacter::Tick( float DeltaTime )
 {
-	Super::Tick(DeltaTime);
+	Super::Tick( DeltaTime );
 
-	if (isWalkingForward || isWalkingRight)
-	{
-		if (CanJump())
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(), WalkSound, GetActorLocation());
-	}
-	if (isJumpingGruntCheck)
-	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), GruntSound, GetActorLocation());
-		isJumpingGruntCheck = false;
-	}
-
-	if (GetVelocity().Z == 0 && isJumpingGroundCheck)
-	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), JumpSound, GetActorLocation());
-		isJumpingGroundCheck = false;
-	}
-	if (CameraIsChanging == true)
-	{
-		UpdateCamera(FantasyCounter);
-	}
 }
 
 // Called to bind functionality to input
@@ -89,11 +68,8 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	//Depending on the key pressed, will change the player's equip.
-	InputComponent->BindAction("EquipSlot1", IE_Pressed, this, &APlayerCharacter::EquipSlot1);
-	InputComponent->BindAction("EquipSlot2", IE_Pressed, this, &APlayerCharacter::EquipSlot2);
 
-	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerCharacter::StartJump);
+
 	InputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 
@@ -105,43 +81,28 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	InputComponent->BindAxis("LookUpRate", this, &APlayerCharacter::LookUpAtRate);
 }
-void APlayerCharacter::StartJump()
-{
-	if (GetVelocity().Z == 0)
-	{
-		isJumpingGruntCheck = true;
-		isJumpingGroundCheck = true;
-		Jump();
-	}
-}
-
 
 //MOVEMENT CODE//
+
 void APlayerCharacter::MoveForward(float Value)
 {
 	
-	if (Value != 0.0f)
-	{
-		// add movement in that direction
-		AddMovementInput(GetActorForwardVector(), Value);
-		isWalkingForward = true;
-	}
-	else
-		isWalkingForward = false;
+		if (Value != 0.0f)
+		{
+			// add movement in that direction
+			AddMovementInput(GetActorForwardVector(), Value);
+		}
 	
 }
 
 void APlayerCharacter::MoveRight(float Value)
 {
 	
-	if (Value != 0.0f)
-	{
-		// add movement in that direction
-		AddMovementInput(GetActorRightVector(), Value);
-		isWalkingRight = true;
-	}
-	else
-		isWalkingRight = false;
+		if (Value != 0.0f)
+		{
+			// add movement in that direction
+			AddMovementInput(GetActorRightVector(), Value);
+		}
 	
 }
 
@@ -159,13 +120,14 @@ void APlayerCharacter::LookUpAtRate(float Rate)
 		AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds()); //pitch vertical rotation
 	
 }
+
 //MOVEMENT CODE END//
 
 
 //USE BUTTON CODE//
+
 void APlayerCharacter::ActivateButton()
 {
-	//If the player is lifting a box and the button is pressed then all we should do is drop the box.
 	if (bCurrentlyLiftingBox)
 	{
 		bCurrentlyLiftingBox = false;
@@ -198,103 +160,48 @@ void APlayerCharacter::ActivateButton()
 		}
 	}
 
-	//As long as the closest actor is not null then it runs the interact function on that object
 	if (ClosestObject != nullptr)
 	{
-		//GEngine->AddOnScreenDebugMessage(1, 1, FColor::Red, ClosestObject->GetName());
-		if (ClosestObject->GetName().Contains("Door"))
-		{
-			if (ClosestObject->GetName().Contains("Interactable"))
-			{
-				ClosestObject->Interact(this);
-			}
-		}
-		else
-		{
-			ClosestObject->Interact(this);
-		}
+		ClosestObject->Interact(this);
+
 	}
 }
+
 //USE BUTTON CODE END//
 
 
 USceneComponent* APlayerCharacter::GetHand()
 {
-	//Returns the hand object that the mop and liftable objects attach to
 	return Hand;
 }
 
-
-void APlayerCharacter::EquipSlot1() //Nothing Equipped
-{
-	EquippedIndex = 1;
-	Unequip();
-}
-void APlayerCharacter::EquipSlot2() //First Equip
-{
-	if (UnlockedEquips >= 1)
-	{
-		EquippedIndex = 2;
-		Equip(Equips[0]);
-	}
-}
-
-
 void APlayerCharacter::Equip(TSubclassOf<ABaseEquips> EquipType)
 {
-	if (Equipped != NULL)
+	if (Equipped != NULL && Equipped->IsA(EquipType))
 	{
-		Unequip();
+		return;
 	}
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = this;
 
 	Equipped = GetWorld()->SpawnActor<ABaseEquips>(EquipType, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
-	Equipped->AttachRootComponentTo(GetMesh(), "BN_RPalm_01");
+	Equipped->AttachRootComponentTo(RootComponent);
+	//Equipped->AttachRootComponentTo(GetMesh(), TEXT("RightHand"));
 }
 
-void APlayerCharacter::Unequip()
-{
-	if (Equipped != NULL)
-	{
-		Equipped->Destroy();
-		Equipped = NULL;
-	}
-}
-
-//Sets the players currently lifted object
 void APlayerCharacter::SetObjectLifted(ALiftableBox* Box)
 {
 	PickedUpBox = Box;
 	bCurrentlyLiftingBox = true;
 }
 
-void APlayerCharacter::SetLastChoice(bool ChoiceMade)
-{
-	LastChoiceMade = ChoiceMade;
-	GEngine->AddOnScreenDebugMessage(1, 1, FColor::Black, TEXT("DING"));
-}
-
-bool APlayerCharacter::GetLastChoice()
-{
-	return LastChoiceMade;
-}
-
-
 void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
 {
 	if (OtherActor != GetOwner())
 	{
-		if (OtherActor->GetName().Contains("Fantasy"))
-		{
-			FantasyCounter++;
-			SaveGameInstance->SavedFantasyCounter = FantasyCounter;
-			CameraIsChanging = true;
-		}
 	}
 }
-
 
 void APlayerCharacter::OnActorOverlapEnd(AActor* OtherActor)
 {
@@ -303,55 +210,3 @@ void APlayerCharacter::OnActorOverlapEnd(AActor* OtherActor)
 		//
 	}
 }
-
-void APlayerCharacter::UpdateCamera(float Counter)
-{
-	if (Counter == 0)
-	{
-		GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation = 1;
-		GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity = 0;
-	}
-	else if (Counter == 1)
-	{
-		if (GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation < 1.2)
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation += 0.005;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity += 0.0025;
-		}
-		else
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation = 1.2;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity = 0.1;
-			CameraIsChanging = false;
-		}
-	}
-	else if (Counter == 2)
-	{
-		if (GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation < 1.4)
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation += 0.005;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity += 0.0025;
-		}
-		else
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation = 1.4;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity = 0.2;
-			CameraIsChanging = false;
-		}
-	}
-	else if (Counter > 2)
-	{
-		if (GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation < 1.6)
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation += 0.005;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity += 0.0025;
-		}
-		else
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation = 1.6;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity = 0.3;
-			CameraIsChanging = false;
-		}
-	}
-}
-

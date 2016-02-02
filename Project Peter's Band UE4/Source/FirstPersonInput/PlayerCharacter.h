@@ -4,8 +4,7 @@
 
 #include "GameFramework/Character.h"
 #include "Equips/BaseEquips.h"
-#include "TheSaveGame.h"
-#include "Interactables/LiftableBox.h"
+#include "LiftableBox.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -20,7 +19,6 @@ class FIRSTPERSONINPUT_API APlayerCharacter : public ACharacter
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FirstPersonCameraComponent;
-
 
 public:
 	// Sets default values for this character's properties
@@ -47,56 +45,10 @@ public:
 
 	//A function that will equip an object of type ABaseEquips.
 	void Equip(TSubclassOf<ABaseEquips> EquipType);
-	void Unequip();
-
-	//Depending on the key pressed, will change the player's equip.
-	void EquipSlot1();
-	void EquipSlot2();
-
-	//Gives the player a reference to the lifted object (Used for dropping the box)
+	
 	void SetObjectLifted(ALiftableBox* Box);
 
-	//Getter and Setter for the choice narrative options in the branching path system
-	bool GetLastChoice();
-	void SetLastChoice(bool ChoiceMade);
-
-	//Player specific sounds, set in the editor
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		USoundCue* GruntSound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		USoundCue* JumpSound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		USoundCue* WalkSound;
-
-	UPROPERTY()
-		UTheSaveGame* SaveGameInstance = Cast<UTheSaveGame>(UGameplayStatics::CreateSaveGameObject(UTheSaveGame::StaticClass()));
-
 protected:
-
-	UPROPERTY()
-		ACameraActor* TheCameraToEffect;
-
-	UFUNCTION()
-		void UpdateCamera(float Counter);
-
-	UPROPERTY()
-		float FantasyCounter;
-
-	bool CameraIsChanging;
-
-
-	//Checks for what the player character is currently doing for sounds
-	bool isWalkingForward;
-
-	bool isWalkingRight;
-
-	bool isJumpingGruntCheck;
-
-	bool isJumpingGroundCheck;
-
-	void StartJump();
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);
@@ -116,56 +68,39 @@ protected:
 	*/
 	void LookUpAtRate(float Rate);
 
+
+
 public:
 	/** Returns Mesh1P subobject **/
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 	
-
 protected:
 
-	//A function that handles the activate button press
 	UFUNCTION()
 	void ActivateButton();
 	
-	//Connection for Box and other liftable objects, curretly where the mop is being attached but
-	//Mop will be moved to the models hand when it comes in.
 	UPROPERTY(EditAnywhere)
 	USceneComponent* Hand;
 
-	//A list of the equips the player has available to them.
+	//A default equip established in the editor
 	//and an equipped variable to hold the currently equipped tool.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TArray< TSubclassOf<ABaseEquips> > Equips;
+		TSubclassOf<ABaseEquips> DefaultEquipClass;
+		ABaseEquips* Equipped;
 
-	//A value that determines which equips the player has access to.
-	//If 0, the player cannot equip anything, if 1, the player can
-	//access the first element in the Equips array.
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	uint8 UnlockedEquips;
-
-	uint8 EquippedIndex;
-	ABaseEquips* Equipped;
-	
 	UFUNCTION()
 	virtual void OnActorOverlap(AActor* OtherActor);
 
 	UFUNCTION()
 	virtual void OnActorOverlapEnd(AActor* OtherActor);
 
-
 private:
 
-	//Reference to the object that was picked up
 	ALiftableBox *PickedUpBox;
 
-	//Tells the player if they are currently lifting a box
 	bool bCurrentlyLiftingBox;
 
-	bool LastChoiceMade;
-
-	//Needs to be moved to a ULocalPlayer class
-	int32 ChoiceScale;
 
 };
