@@ -26,7 +26,6 @@ APlayerCharacter::APlayerCharacter()
 	Mesh1P->bCastDynamicShadow = false;
 	Mesh1P->CastShadow = false;
 
-
 	//BOX PICKUP CODE//
 	Hand = CreateDefaultSubobject<USceneComponent>(TEXT("Hand"));
 	Hand->AttachTo(FirstPersonCameraComponent);
@@ -44,11 +43,6 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	bCurrentlyLiftingBox = false;
-
-	//FANTASY CAMERA CODE//
-	FantasyCounter = SaveGameInstance->SavedFantasyCounter;
-	UpdateCamera(FantasyCounter);
-	//FANTASY CAMERA CODE//
 
 }
 
@@ -73,10 +67,6 @@ void APlayerCharacter::Tick(float DeltaTime)
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), JumpSound, GetActorLocation());
 		isJumpingGroundCheck = false;
-	}
-	if (CameraIsChanging == true)
-	{
-		UpdateCamera(FantasyCounter);
 	}
 }
 
@@ -288,9 +278,14 @@ void APlayerCharacter::OnActorOverlap(AActor* OtherActor)
 	{
 		if (OtherActor->GetName().Contains("Fantasy"))
 		{
-			FantasyCounter++;
-			SaveGameInstance->SavedFantasyCounter = FantasyCounter;
-			CameraIsChanging = true;
+			if (FantasyCounter == NULL)
+			{
+				FantasyCounter = 0;
+			}
+			if (FantasyCounter != NULL)
+			{
+				UpdateCamera(FantasyCounter);
+			}
 		}
 	}
 }
@@ -306,52 +301,27 @@ void APlayerCharacter::OnActorOverlapEnd(AActor* OtherActor)
 
 void APlayerCharacter::UpdateCamera(float Counter)
 {
+	TheCameraToEffect = Cast<ACameraActor>(this->GetFirstPersonCameraComponent());
+
 	if (Counter == 0)
 	{
-		GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation = 1;
-		GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity = 0;
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.FilmSaturation = 1;
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.VignetteIntensity = 0;
 	}
 	else if (Counter == 1)
 	{
-		if (GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation < 1.2)
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation += 0.005;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity += 0.0025;
-		}
-		else
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation = 1.2;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity = 0.1;
-			CameraIsChanging = false;
-		}
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.FilmSaturation = 1.2;
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.VignetteIntensity = 0.1;
 	}
 	else if (Counter == 2)
 	{
-		if (GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation < 1.4)
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation += 0.005;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity += 0.0025;
-		}
-		else
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation = 1.4;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity = 0.2;
-			CameraIsChanging = false;
-		}
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.FilmSaturation = 1.35;
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.VignetteIntensity = 0.2;
 	}
 	else if (Counter > 2)
 	{
-		if (GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation < 1.6)
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation += 0.005;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity += 0.0025;
-		}
-		else
-		{
-			GetFirstPersonCameraComponent()->PostProcessSettings.FilmSaturation = 1.6;
-			GetFirstPersonCameraComponent()->PostProcessSettings.VignetteIntensity = 0.3;
-			CameraIsChanging = false;
-		}
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.FilmSaturation = 1.5;
+		TheCameraToEffect->GetCameraComponent()->PostProcessSettings.VignetteIntensity = 0.3;
 	}
 }
 
